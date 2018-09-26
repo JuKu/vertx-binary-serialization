@@ -25,6 +25,7 @@ You have to add the annotations `MessageType` with the type (1 byte as type) and
 
 Then you can serialize and unserialize this object easely:
 ```java
+//create message object which implements SerializableObject
 TestObject obj = new TestObject();
 
 //serialize object into byte buffer
