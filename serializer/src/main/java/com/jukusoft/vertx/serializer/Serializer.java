@@ -86,4 +86,10 @@ public class Serializer {
         return ins;
     }
 
+    public static <T extends SerializableObject> T unserialize (Buffer msg) {
+        //TODO: add code here to detect message type, find message object class and call unserialize(msg, clazz).
+
+        throw new UnsupportedOperationException("method isn't implemented yet.");
+    }
+
 }
