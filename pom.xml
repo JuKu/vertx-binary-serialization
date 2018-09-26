@@ -13,5 +13,38 @@
 		<module>benchmark</module>
 	</modules>
 
+	<properties>
+		<vertx.version>3.5.3</vertx.version>
+		<junit.version>4.12</junit.version>
+
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.vertx/vertx-core -->
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-core</artifactId>
+			<version>${vertx.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/io.vertx/vertx-unit -->
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-unit</artifactId>
+			<version>${vertx.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
 
 </project>
