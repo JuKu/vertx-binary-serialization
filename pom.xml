@@ -21,7 +21,7 @@
 		<hppc.version>0.8.1</hppc.version>
 
 		<!-- library for high performance Real-Time and Embedded Systems, 5.4.1 -->
-		<javolution.version>5.4.1</javolution.version>
+		<javolution.version>6.0.0</javolution.version>
 
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
