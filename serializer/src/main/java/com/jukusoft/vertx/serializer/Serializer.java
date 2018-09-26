@@ -1,5 +1,7 @@
 package com.jukusoft.vertx.serializer;
 
+import com.jukusoft.vertx.serializer.annotations.ProtocolVersion;
+import com.jukusoft.vertx.serializer.exceptions.NoProtocolVersionException;
 import com.jukusoft.vertx.serializer.exceptions.SerializerException;
 import io.vertx.core.buffer.Buffer;
 
@@ -11,6 +13,10 @@ public class Serializer {
 
     public static Buffer serialize (SerializableObject obj) {
         Buffer buf = Buffer.buffer();
+
+        if (obj.getClass().getAnnotation(ProtocolVersion.class) == null) {
+            throw new NoProtocolVersionException("No protocol version annotation was found in class '" + obj.getClass().getCanonicalName() + "'!");
+        }
 
         //TODO: add code here
 
