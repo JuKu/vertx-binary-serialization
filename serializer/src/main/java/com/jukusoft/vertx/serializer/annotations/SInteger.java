@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface SInteger {
 
-    public int minValue () default -Integer.MIN_VALUE;
+    public int minValue () default Integer.MIN_VALUE;
 
     public int maxValue () default Integer.MAX_VALUE;
 
