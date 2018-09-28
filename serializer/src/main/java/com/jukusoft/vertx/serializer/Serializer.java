@@ -47,7 +47,7 @@ public class Serializer {
                 for (Annotation annotation : field.getAnnotations()) {
                     Class<? extends Annotation> clazz = annotation.annotationType();
 
-                    if (annotation instanceof SInteger) {
+                    if (clazz == SInteger.class) {
                         //get integer value of field
                         int value = field.getInt(obj);
 
