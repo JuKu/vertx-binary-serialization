@@ -13,9 +13,9 @@ cache:
     - $HOME/.cache
     - $HOME/.m2
 
-#addons:
-#  sonarcloud:
-#    organization: "jukusoft"
+addons:
+  sonarcloud:
+    organization: "jukusoft"
     #jukusoft, juku-github
 
 script:
