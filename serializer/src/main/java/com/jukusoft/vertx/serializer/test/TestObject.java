@@ -7,7 +7,7 @@ import com.jukusoft.vertx.serializer.annotations.SInteger;
 
 @MessageType(type = 0x01)
 @ProtocolVersion(1)
-public class TestObject extends SerializableObject {
+public class TestObject implements SerializableObject {
 
     @SInteger
     public int test = 10;
