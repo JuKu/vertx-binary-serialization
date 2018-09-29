@@ -240,4 +240,9 @@ public class SerializerTest {
         Serializer.unserialize(buffer);
     }
 
+    @Test (expected = NullPointerException.class)
+    public void testSerializeNullBytes () {
+        Serializer.serialize(new TestObjectWithNullBytes());
+    }
+
 }

@@ -104,9 +104,9 @@ public class Serializer {
                             throw new NullPointerException("byte array cannot be null in field '" + field.getName() + "' in class '" + clazz.getCanonicalName() + "'!");
                         }
 
-                        if (bytes != null && bytes.length > 4294967296l) {
+                        /*if (bytes.length > 4294967296l) {
                             throw new SerializerException("max 4294967296 bytes are allowed in array in field '" + field.getName() + "' class '" + clazz.getCanonicalName() + "'!");
-                        }
+                        }*/
 
                         //add to protocol
                         buf.setUnsignedInt(_pos, bytes.length);
