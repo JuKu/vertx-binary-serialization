@@ -16,8 +16,6 @@ public class TypeLookup {
     public static void register (byte type, byte extendedType, Class<? extends SerializableObject> cls) {
         int key = ByteUtils.twoBytesToInt(type, extendedType);
 
-        System.err.println("register type " + ByteUtils.byteToHex(type) + " with extended type " + ByteUtils.byteToHex(extendedType)  + "!");
-
         map.put(key, cls);
     }
 
