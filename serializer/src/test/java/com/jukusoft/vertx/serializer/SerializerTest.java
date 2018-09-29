@@ -37,6 +37,12 @@ public class SerializerTest {
         Buffer buffer = Serializer.serialize(obj);
     }
 
+    @Test (expected = NoProtocolVersionException.class)
+    public void testUnserializerWithoutProtocolVersion () {
+        Buffer buffer = Buffer.buffer();
+        Serializer.unserialize(buffer, TestObjectWithoutVersion.class, 2);
+    }
+
     @Test
     public void testSerializer () {
         TestObject obj = new TestObject();
@@ -171,6 +177,26 @@ public class SerializerTest {
         Buffer buffer = Buffer.buffer();
 
         Serializer.unserialize(buffer, AbstractTestObject.class, 2);
+    }
+
+    @Test (expected = SerializerException.class)
+    public void testUnserializeWithPrivateVariable () {
+        Buffer buffer = Serializer.serialize(new TestObjectWithPrivateVariable());
+        Serializer.unserialize(buffer, TestObjectWithPrivateVariable.class, 2);
+    }
+
+    @Test
+    public void testUnserializeWithFinalVariable () {
+        TestObjectWithFinalVariable obj = new TestObjectWithFinalVariable();
+
+        Buffer buffer = Serializer.serialize(obj);
+        Serializer.unserialize(buffer, TestObjectWithFinalVariable.class, 2);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testUnserializeWithNullPos () {
+        Buffer buffer = Serializer.serialize(new TestObject());
+        Serializer.unserialize(buffer, TestObjectWithFinalVariable.class, 0);
     }
 
 }
