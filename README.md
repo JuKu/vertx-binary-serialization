@@ -17,7 +17,7 @@ A simple binary serialization method for vertx which uses annotations &amp; refl
 ## Requirements
 
   - Java 8+
-  - [vertx](http://vertx.io)
+  - [vert.x](http://vertx.io)
   
 ## HowTo
 
