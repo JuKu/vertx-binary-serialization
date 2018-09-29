@@ -55,8 +55,16 @@ public class Serializer {
 
                         //add to protocol
                         buf.setInt(_pos, value);
+                        _pos += 4;
                     } else if (annotation instanceof SString) {
-                        //TODO: add code here
+                        String value = (String) field.get(obj);
+
+                        //check max characters
+
+                        buf.setInt(_pos, value.length());
+                        _pos += 4;
+                        buf.setString(_pos, value);
+                        _pos += value.length() * 4;
                     }
 
                     //TODO: add code here
