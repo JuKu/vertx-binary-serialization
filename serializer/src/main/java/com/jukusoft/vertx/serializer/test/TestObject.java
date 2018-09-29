@@ -6,7 +6,7 @@ import com.jukusoft.vertx.serializer.annotations.ProtocolVersion;
 import com.jukusoft.vertx.serializer.annotations.SInteger;
 import com.jukusoft.vertx.serializer.annotations.SString;
 
-@MessageType(type = 0x01)
+@MessageType(type = 0x01, extendedByte = 0x01)
 @ProtocolVersion(1)
 public class TestObject implements SerializableObject {
 

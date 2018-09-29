@@ -8,6 +8,7 @@ import com.jukusoft.vertx.serializer.exceptions.NoMessageTypeException;
 import com.jukusoft.vertx.serializer.exceptions.NoProtocolVersionException;
 import com.jukusoft.vertx.serializer.exceptions.SerializerException;
 import com.jukusoft.vertx.serializer.exceptions.UnsupportedProtocolVersionException;
+import com.jukusoft.vertx.serializer.utils.ByteUtils;
 import io.vertx.core.buffer.Buffer;
 
 import java.lang.annotation.Annotation;
@@ -32,13 +33,22 @@ public class Serializer {
 
         int _pos = 0;
 
-        //add message type
         MessageType msgType = obj.getClass().getAnnotation(MessageType.class);
-        buf.setInt(_pos, msgType.type());
+
+        if (msgType.type() == 0x00) {
+            throw new IllegalStateException("message type cannot 0x00, please correct annotation @MessageType in class '" + obj.getClass().getCanonicalName()+ "'!");
+        }
+
+        if (msgType.extendedByte() == 0x00) {
+            throw new IllegalStateException("message extended type cannot 0x00, please correct annotation @MessageType in class '" + obj.getClass().getCanonicalName()+ "'!");
+        }
+
+        //add message type
+        buf.setByte(_pos, msgType.type());
         _pos += 1;
 
         //add message extended type
-        buf.setInt(_pos, msgType.extendedByte());
+        buf.setByte(_pos, msgType.extendedByte());
         _pos += 1;
 
         //add protocol version
@@ -84,7 +94,7 @@ public class Serializer {
         return buf;
     }
 
-    public static <T extends SerializableObject> T unserialize (Buffer msg, Class<T> cls) {
+    public static <T extends SerializableObject> T unserialize (Buffer msg, Class<T> cls, int _pos) {
         //first, create new instance of this class
         T ins = null;
 
@@ -102,15 +112,17 @@ public class Serializer {
             throw new NoProtocolVersionException("No protocol version annotation was found in class '" + cls.getCanonicalName() + "'!");
         }
 
-        int _pos = 0;
-
         //read type
         //byte type = msg.getByte(_pos);
-        _pos += 1;
+        //_pos += 1;
 
         //read extended type
         //byte extendedType = msg.getByte(_pos);
-        _pos += 1;
+        //_pos += 1;
+
+        if (_pos < 2) {
+            throw new IllegalArgumentException("_pos cannot be < 2, because type and extended type are also in protocol.");
+        }
 
         //read protocol version
         short version = msg.getShort(_pos);
@@ -158,10 +170,28 @@ public class Serializer {
         return ins;
     }
 
+    public static <T extends SerializableObject> T unserialize (Buffer msg, Class<T> cls) {
+        return unserialize(msg, cls, 2);
+    }
     public static <T extends SerializableObject> T unserialize (Buffer msg) {
-        //TODO: add code here to detect message type, find message object class and call unserialize(msg, clazz).
+        int _pos = 0;
 
-        throw new UnsupportedOperationException("method isn't implemented yet.");
+        //get type
+        byte type = msg.getByte(_pos);
+        _pos += 1;
+
+        //get extended type
+        byte extendedType = msg.getByte(_pos);
+        _pos += 1;
+
+        //get class
+        Class<T> cls = (Class<T>) TypeLookup.find(type, extendedType);
+
+        if (cls == null) {
+            throw new IllegalStateException("message type " + ByteUtils.byteToHex(type) + " with extended type " + ByteUtils.byteToHex(extendedType) + " doesn't have a registered class, please register with TypeLookup.register() first!");
+        }
+
+        return cls.cast(unserialize(msg, cls, _pos));
     }
 
 }

@@ -3,12 +3,26 @@ package com.jukusoft.vertx.serializer;
 import com.jukusoft.vertx.serializer.exceptions.NoProtocolVersionException;
 import com.jukusoft.vertx.serializer.test.TestObject;
 import com.jukusoft.vertx.serializer.test.TestObjectWithoutVersion;
+import com.jukusoft.vertx.serializer.utils.ByteUtils;
 import io.vertx.core.buffer.Buffer;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class SerializerTest {
+
+    @BeforeClass
+    public static void beforeClass () {
+        TypeLookup.removeAll();
+    }
+
+    @AfterClass
+    public static void afterClass () {
+        TypeLookup.removeAll();
+    }
 
     @Test
     public void testConstructor () {
@@ -63,6 +77,8 @@ public class SerializerTest {
         long startTime = System.currentTimeMillis();
 
         Buffer buffer = Serializer.serialize(obj);
+        //System.err.println("serialized buffer: " + buffer.toString());
+        //System.err.println("serialized buffer hex: " + ByteUtils.bytesToHex(buffer.getBytes(0, buffer.length())));
         TestObject obj1 = Serializer.unserialize(buffer, TestObject.class);
 
         assertEquals(obj.test, obj1.test);
@@ -92,7 +108,39 @@ public class SerializerTest {
 
         for (int i = 0; i < objs.length; i++) {
             Buffer buffer = Serializer.serialize(obj);
+
             objs[i] = Serializer.unserialize(buffer, TestObject.class);
+
+            assertEquals(20, objs[i].test);
+            assertEquals("test2", objs[i].testStr);
+        }
+
+        long endTime = System.currentTimeMillis();
+        long timeDiff = endTime - startTime;
+        System.out.println("[Benchmark] time needed for serialization & unserialization of 1.000.000 objects: " + timeDiff + "ms");
+    }
+
+    @Test
+    public void testSerializeAndUnserialize100TimesWithoutClass () {
+        TestObject obj = new TestObject();
+        obj.test = 20;
+        obj.testStr = "test2";
+
+        TestObject[] objs = new TestObject[1000000];
+
+        //register type
+        TypeLookup.register(TestObject.class);
+
+        long startTime = System.currentTimeMillis();
+
+        for (int i = 0; i < objs.length; i++) {
+            Buffer buffer = Serializer.serialize(obj);
+            assertNotNull(buffer);
+
+            objs[i] = Serializer.unserialize(buffer);
+
+            assertEquals(20, objs[i].test);
+            assertEquals("test2", objs[i].testStr);
         }
 
         long endTime = System.currentTimeMillis();
