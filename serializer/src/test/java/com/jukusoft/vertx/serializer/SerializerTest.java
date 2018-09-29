@@ -80,4 +80,24 @@ public class SerializerTest {
         assertEquals(obj.getClass(), obj1.getClass());
     }
 
+    @Test
+    public void testSerializeAndUnserialize100Times () {
+        TestObject obj = new TestObject();
+        obj.test = 20;
+        obj.testStr = "test2";
+
+        TestObject[] objs = new TestObject[1000000];
+
+        long startTime = System.currentTimeMillis();
+
+        for (int i = 0; i < objs.length; i++) {
+            Buffer buffer = Serializer.serialize(obj);
+            objs[i] = Serializer.unserialize(buffer, TestObject.class);
+        }
+
+        long endTime = System.currentTimeMillis();
+        long timeDiff = endTime - startTime;
+        System.out.println("[Benchmark] time needed for serialization & unserialization of 1.000.000 objects: " + timeDiff + "ms");
+    }
+
 }
