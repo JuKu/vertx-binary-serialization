@@ -88,6 +88,7 @@ public class SerializerTest {
         obj.setTestChar('a');
         obj.b = 0x20;
         obj.bytes = new byte[]{0x01, 0x02};
+        obj.shortValue = 200;
 
         long startTime = System.currentTimeMillis();
 
@@ -103,6 +104,7 @@ public class SerializerTest {
         assertEquals(0x20, obj1.b);
         assertEquals(0x01, obj1.bytes[0]);
         assertEquals(0x02, obj1.bytes[1]);
+        assertEquals(200, obj1.shortValue);
 
         System.out.println("serialized int: " + obj.test);
         System.out.println("serialized string: " + obj.testStr);

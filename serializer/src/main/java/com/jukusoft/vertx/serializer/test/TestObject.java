@@ -25,6 +25,9 @@ public class TestObject implements SerializableObject {
     @SBytes
     public byte[] bytes = new byte[0];
 
+    @SShort
+    public short shortValue = 100;
+
     public TestObject () {
         //
     }
