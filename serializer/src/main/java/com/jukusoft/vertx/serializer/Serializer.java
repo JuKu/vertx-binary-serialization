@@ -120,6 +120,12 @@ public class Serializer {
                         //add to protocol
                         buf.setShort(_pos, s);
                         _pos += 2;
+                    } else if (clazz == SLong.class) {
+                        long l = field.getLong(obj);
+
+                        //add to protocol
+                        buf.setLong(_pos, l);
+                        _pos += 4;
                     }
                 }
             }
@@ -227,6 +233,11 @@ public class Serializer {
                         _pos += 2;
 
                         field.set(ins, s);
+                    } else if (clazz == SLong.class) {
+                        long l = msg.getLong(_pos);
+                        _pos += 4;
+
+                        field.set(ins, l);
                     }
                 }
             }

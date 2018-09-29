@@ -28,6 +28,9 @@ public class TestObject implements SerializableObject {
     @SShort
     public short shortValue = 100;
 
+    @SLong
+    public long longValue = 40;
+
     public TestObject () {
         //
     }
