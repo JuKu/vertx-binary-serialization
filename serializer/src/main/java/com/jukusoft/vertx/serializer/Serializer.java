@@ -125,6 +125,12 @@ public class Serializer {
 
                         //add to protocol
                         buf.setLong(_pos, l);
+                        _pos += 8;
+                    } else if (clazz == SFloat.class) {
+                        float floatValue = field.getFloat(obj);
+
+                        //add to protocol
+                        buf.setFloat(_pos, floatValue);
                         _pos += 4;
                     }
                 }
@@ -235,9 +241,14 @@ public class Serializer {
                         field.set(ins, s);
                     } else if (clazz == SLong.class) {
                         long l = msg.getLong(_pos);
-                        _pos += 4;
+                        _pos += 8;
 
                         field.set(ins, l);
+                    } else if (clazz == SFloat.class) {
+                        float floatValue = msg.getFloat(_pos);
+                        _pos += 4;
+
+                        field.set(ins, floatValue);
                     }
                 }
             }

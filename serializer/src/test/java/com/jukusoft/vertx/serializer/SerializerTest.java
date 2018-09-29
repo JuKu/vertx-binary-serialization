@@ -90,6 +90,7 @@ public class SerializerTest {
         obj.bytes = new byte[]{0x01, 0x02};
         obj.shortValue = 200;
         obj.longValue = 50;
+        obj.floatValue = 20.1f;
 
         long startTime = System.currentTimeMillis();
 
@@ -107,6 +108,7 @@ public class SerializerTest {
         assertEquals(0x02, obj1.bytes[1]);
         assertEquals(200, obj1.shortValue);
         assertEquals(50, obj1.longValue);
+        assertEquals(20.1f, obj1.floatValue, 0.0001);
 
         System.out.println("serialized int: " + obj.test);
         System.out.println("serialized string: " + obj.testStr);
