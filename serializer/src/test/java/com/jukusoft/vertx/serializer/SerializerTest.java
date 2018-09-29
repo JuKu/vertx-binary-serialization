@@ -212,4 +212,12 @@ public class SerializerTest {
         Serializer.unserialize(buffer, TestObjectV1.class, 2);
     }
 
+    @Test (expected = IllegalStateException.class)
+    public void testUnserializeUnregisteredClass () {
+        TypeLookup.removeAll();
+
+        Buffer buffer = Serializer.serialize(new TestObject());
+        Serializer.unserialize(buffer);
+    }
+
 }
