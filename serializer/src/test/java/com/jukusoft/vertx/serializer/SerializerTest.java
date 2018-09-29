@@ -1,7 +1,10 @@
 package com.jukusoft.vertx.serializer;
 
+import com.jukusoft.vertx.serializer.exceptions.NoMessageTypeException;
 import com.jukusoft.vertx.serializer.exceptions.NoProtocolVersionException;
 import com.jukusoft.vertx.serializer.test.TestObject;
+import com.jukusoft.vertx.serializer.test.TestObject3;
+import com.jukusoft.vertx.serializer.test.TestObjectWithoutType;
 import com.jukusoft.vertx.serializer.test.TestObjectWithoutVersion;
 import com.jukusoft.vertx.serializer.utils.ByteUtils;
 import io.vertx.core.buffer.Buffer;
@@ -146,6 +149,16 @@ public class SerializerTest {
         long endTime = System.currentTimeMillis();
         long timeDiff = endTime - startTime;
         System.out.println("[Benchmark] time needed for serialization & unserialization of 1.000.000 objects: " + timeDiff + "ms");
+    }
+
+    @Test (expected = NoMessageTypeException.class)
+    public void testSerializeWithoutType () {
+        Serializer.serialize(new TestObjectWithoutType());
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testSerializeWithNullType () {
+        Serializer.serialize(new TestObject3());
     }
 
 }
