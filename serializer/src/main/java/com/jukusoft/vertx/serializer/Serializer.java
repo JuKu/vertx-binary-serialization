@@ -75,8 +75,6 @@ public class Serializer {
                         buf.setString(_pos, value);
                         _pos += value.length() * 4;
                     }
-
-                    //TODO: add code here
                 }
             }
         } catch (IllegalAccessException e) {
@@ -107,11 +105,11 @@ public class Serializer {
         int _pos = 0;
 
         //read type
-        byte type = msg.getByte(_pos);
+        //byte type = msg.getByte(_pos);
         _pos += 1;
 
         //read extended type
-        byte extendedType = msg.getByte(_pos);
+        //byte extendedType = msg.getByte(_pos);
         _pos += 1;
 
         //read protocol version
