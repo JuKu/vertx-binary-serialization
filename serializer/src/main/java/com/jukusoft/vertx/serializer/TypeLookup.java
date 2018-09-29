@@ -7,6 +7,10 @@ public class TypeLookup {
 
     protected static IntObjectMap<Class<? extends SerializableObject>> map = new IntObjectHashMap<>();
 
+    protected TypeLookup () {
+        //
+    }
+
     public static void register (byte type, byte extendedType, Class<? extends SerializableObject> cls) {
         int key = bytesToInt(type, extendedType);
         map.put(key, cls);
