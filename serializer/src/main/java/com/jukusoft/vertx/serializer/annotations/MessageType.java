@@ -11,6 +11,6 @@ public @interface MessageType {
 
     public byte type ();
 
-    public byte extendedByte () default 0x00;
+    public byte extendedType() default 0x00;
 
 }

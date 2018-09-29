@@ -39,7 +39,7 @@ public class Serializer {
             throw new IllegalStateException("message type cannot 0x00, please correct annotation @MessageType in class '" + obj.getClass().getCanonicalName()+ "'!");
         }
 
-        if (msgType.extendedByte() == 0x00) {
+        if (msgType.extendedType() == 0x00) {
             throw new IllegalStateException("message extended type cannot 0x00, please correct annotation @MessageType in class '" + obj.getClass().getCanonicalName()+ "'!");
         }
 
@@ -48,7 +48,7 @@ public class Serializer {
         _pos += 1;
 
         //add message extended type
-        buf.setByte(_pos, msgType.extendedByte());
+        buf.setByte(_pos, msgType.extendedType());
         _pos += 1;
 
         //add protocol version
