@@ -2,6 +2,18 @@
 
 A simple binary serialization method for vertx which uses annotations &amp; reflection like spring jpa for databases.
 
+[![Build Status](https://travis-ci.org/JuKu/vertx-binary-serialization.svg?branch=master)](https://travis-ci.org/JuKu/vertx-binary-serialization)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Avertx-binary-serializer-parent&metric=ncloc)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Avertx-binary-serializer-parent) 
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Avertx-binary-serializer-parent&metric=alert_status)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Avertx-binary-serializer-parent) 
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Avertx-binary-serializer-parent&metric=coverage)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Avertx-binary-serializer-parent) 
+[![Technical Debt Rating](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Avertx-binary-serializer-parent&metric=sqale_index)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Avertx-binary-serializer-parent) 
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Avertx-binary-serializer-parent&metric=code_smells)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Avertx-binary-serializer-parent) 
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Avertx-binary-serializer-parent&metric=bugs)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Avertx-binary-serializer-parent) 
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Avertx-binary-serializer-parent&metric=vulnerabilities)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Avertx-binary-serializer-parent) 
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Avertx-binary-serializer-parent&metric=security_rating)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Avertx-binary-serializer-parent) 
+
+[![Sonarcloud](https://sonarcloud.io/api/project_badges/quality_gate?project=com.jukusoft%3Avertx-binary-serializer-parent)](https://sonarcloud.io/dashboard?id=com.jukusoft%3Avertx-binary-serializer-parent)
+
 ## Requirements
 
   - Java 8+
