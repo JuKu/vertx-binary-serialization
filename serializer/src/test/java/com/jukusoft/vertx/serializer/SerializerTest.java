@@ -86,6 +86,7 @@ public class SerializerTest {
 
         obj.setTestBool(true);
         obj.setTestChar('a');
+        obj.b = 0x20;
 
         long startTime = System.currentTimeMillis();
 
@@ -98,6 +99,7 @@ public class SerializerTest {
         assertEquals(obj.testStr, obj1.testStr);
         assertEquals(true, obj1.isTestBool());
         assertEquals('a', obj1.getTestChar());
+        assertEquals(0x20, obj1.b);
 
         System.out.println("serialized int: " + obj.test);
         System.out.println("serialized string: " + obj.testStr);

@@ -91,6 +91,12 @@ public class Serializer {
                         //add to protocol
                         buf.setShort(_pos, (short) character);
                         _pos += 2;
+                    } else if (clazz == SByte.class) {
+                        byte b = field.getByte(obj);
+
+                        //add to protocol
+                        buf.setByte(_pos, b);
+                        _pos += 1;
                     }
                 }
             }

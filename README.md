@@ -46,3 +46,18 @@ Buffer buffer = Serializer.serialize(obj);
 //unserialize object from byte buffer
 TestObject obj1 = Serializer.unserialize(buffer, TestObject.class);
 ```
+
+## Supported datatypes
+
+All primitive datatypes in Java are supported:
+
+  - byte
+  - short
+  - int
+  - long
+  - float
+  - double
+  - boolean
+  - char
+  
+**Complex datatypes** (objects) are **not** supported!

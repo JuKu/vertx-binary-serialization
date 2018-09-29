@@ -19,6 +19,9 @@ public class TestObject implements SerializableObject {
     @SChar
     private char testChar = 'z';
 
+    @SByte
+    public byte b = 0x10;
+
     public TestObject () {
         //
     }
