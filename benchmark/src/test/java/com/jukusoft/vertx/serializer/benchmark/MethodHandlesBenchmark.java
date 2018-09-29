@@ -41,7 +41,7 @@ public class MethodHandlesBenchmark {
         System.out.println("[Benchmark] instance creation with reflection takes " + timeDiff + "ms");
     }
 
-    //@Test
+    @Test
     public void testMethodHandleWay () throws Throwable {
         Class<? extends SerializableObject>[] classes = new Class[1000000];
 
@@ -54,7 +54,7 @@ public class MethodHandlesBenchmark {
             classes[i] = random.nextInt() % 2 == 0 ? TestObject.class : TestObject1.class;
 
             //2 parameters: return type and input types
-            MethodType mt = MethodType.methodType(classes[i], void.class);
+            MethodType mt = MethodType.methodType(void.class);//classes[i]
 
             //find method handle
             MethodHandle constructorMH = lookup.findConstructor(classes[i], mt);

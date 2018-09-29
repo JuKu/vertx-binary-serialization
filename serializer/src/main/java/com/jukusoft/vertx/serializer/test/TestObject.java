@@ -16,4 +16,8 @@ public class TestObject implements SerializableObject {
     @SString(maxCharacters = 30)
     public String testStr = "test";
 
+    public TestObject () {
+        //
+    }
+
 }
