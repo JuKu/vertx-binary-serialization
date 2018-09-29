@@ -10,6 +10,6 @@ import com.jukusoft.vertx.serializer.annotations.SInteger;
 public class TestObjectWithFinalVariable implements SerializableObject {
 
     @SInteger
-    public final int test = 2;
+    public static final int test = 2;
 
 }
