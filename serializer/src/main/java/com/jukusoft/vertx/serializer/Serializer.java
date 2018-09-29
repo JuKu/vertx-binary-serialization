@@ -85,6 +85,12 @@ public class Serializer {
                         //add to protocol
                         buf.setByte(_pos, (byte) (bool ? 0x01 : 0x02));
                         _pos += 1;
+                    } else if (clazz == SChar.class) {
+                        char character = field.getChar(obj);
+
+                        //add to protocol
+                        buf.setShort(_pos, (short) character);
+                        _pos += 2;
                     }
                 }
             }
@@ -168,6 +174,11 @@ public class Serializer {
                         _pos += 1;
 
                         field.set(ins, bool);
+                    } else if (clazz == SChar.class) {
+                        char character = (char) msg.getShort(_pos);
+                        _pos += 2;
+
+                        field.set(ins, character);
                     }
                 }
             }

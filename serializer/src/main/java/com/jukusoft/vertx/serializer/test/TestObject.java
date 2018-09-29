@@ -16,6 +16,9 @@ public class TestObject implements SerializableObject {
     @SBoolean
     protected boolean testBool = false;
 
+    @SChar
+    private char testChar = 'z';
+
     public TestObject () {
         //
     }
@@ -26,6 +29,14 @@ public class TestObject implements SerializableObject {
 
     public void setTestBool(boolean testBool) {
         this.testBool = testBool;
+    }
+
+    public char getTestChar() {
+        return testChar;
+    }
+
+    public void setTestChar(char testChar) {
+        this.testChar = testChar;
     }
 
 }
