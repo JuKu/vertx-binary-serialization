@@ -206,7 +206,7 @@ public class SerializerTest {
         Serializer.unserialize(buffer, TestObjectWithPrivateVariable.class, 2);
     }
 
-    @Test
+    @Test (expected = SerializerException.class)
     public void testUnserializeWithFinalVariable () {
         TestObjectWithFinalVariable obj = new TestObjectWithFinalVariable();
 

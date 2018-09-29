@@ -264,7 +264,7 @@ public class Serializer {
                 }
             }
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            throw new SerializerException("Cannot set value in class '" + cls.getCanonicalName() + "'! Maybe a field is static or final?");
         }
 
         return ins;
