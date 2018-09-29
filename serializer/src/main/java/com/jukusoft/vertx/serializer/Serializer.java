@@ -98,7 +98,7 @@ public class Serializer {
             ins = cls.newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
-            throw new SerializerException("Cannot create new instance of class " + cls.getCanonicalName() + "! Maybe constructor isn't public?");
+            throw new SerializerException("Cannot create new instance of class " + cls.getCanonicalName() + "! Maybe constructor isn't public or class is abstract?");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
             throw new SerializerException("Cannot access class " + cls.getCanonicalName() + "! Maybe constructor isn't public?");

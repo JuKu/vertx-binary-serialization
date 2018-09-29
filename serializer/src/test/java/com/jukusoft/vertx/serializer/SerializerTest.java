@@ -2,10 +2,8 @@ package com.jukusoft.vertx.serializer;
 
 import com.jukusoft.vertx.serializer.exceptions.NoMessageTypeException;
 import com.jukusoft.vertx.serializer.exceptions.NoProtocolVersionException;
-import com.jukusoft.vertx.serializer.test.TestObject;
-import com.jukusoft.vertx.serializer.test.TestObject3;
-import com.jukusoft.vertx.serializer.test.TestObjectWithoutType;
-import com.jukusoft.vertx.serializer.test.TestObjectWithoutVersion;
+import com.jukusoft.vertx.serializer.exceptions.SerializerException;
+import com.jukusoft.vertx.serializer.test.*;
 import com.jukusoft.vertx.serializer.utils.ByteUtils;
 import io.vertx.core.buffer.Buffer;
 import org.junit.AfterClass;
@@ -159,6 +157,20 @@ public class SerializerTest {
     @Test (expected = IllegalStateException.class)
     public void testSerializeWithNullType () {
         Serializer.serialize(new TestObject3());
+    }
+
+    @Test (expected = SerializerException.class)
+    public void testUnserializeWithPrivateConstructor () {
+        Buffer buffer = Buffer.buffer();
+
+        Serializer.unserialize(buffer, TestObjectWithPrivateConstructor.class, 2);
+    }
+
+    @Test (expected = SerializerException.class)
+    public void testUnserializeWithAbstractClass () {
+        Buffer buffer = Buffer.buffer();
+
+        Serializer.unserialize(buffer, AbstractTestObject.class, 2);
     }
 
 }
