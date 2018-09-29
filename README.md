@@ -47,6 +47,15 @@ Buffer buffer = Serializer.serialize(obj);
 TestObject obj1 = Serializer.unserialize(buffer, TestObject.class);
 ```
 
+## Protocol Header
+
+Before adding the payload to buffer, there is adding a header with these fields:
+  - maybe: 4x byte (integer) **length of message** (so it can check, if full message was received or we have to wait for other traffic)
+  - 1x byte **type**
+  - 1x byte **extended byte** (so you can use 65,536 different types, instead of 256 bytes)
+  - 2x byte **version** (to check compatibility)
+  - after that: **payload data**
+
 ## Supported datatypes
 
 All primitive datatypes in Java are supported:
