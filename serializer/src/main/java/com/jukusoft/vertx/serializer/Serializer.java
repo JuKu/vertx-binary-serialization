@@ -97,6 +97,23 @@ public class Serializer {
                         //add to protocol
                         buf.setByte(_pos, b);
                         _pos += 1;
+                    } else if (clazz == SBytes.class) {
+                        byte[] bytes = (byte[]) field.get(obj);
+
+                        if (bytes == null) {
+                            throw new NullPointerException("byte array cannot be null in field '" + field.getName() + "' in class '" + clazz.getCanonicalName() + "'!");
+                        }
+
+                        if (bytes != null && bytes.length > 4294967296l) {
+                            throw new SerializerException("max 4294967296 bytes are allowed in array in field '" + field.getName() + "' class '" + clazz.getCanonicalName() + "'!");
+                        }
+
+                        //add to protocol
+                        buf.setUnsignedInt(_pos, bytes.length);
+                        _pos += 4;
+
+                        buf.setBytes(_pos, bytes);
+                        _pos += bytes.length;
                     }
                 }
             }
@@ -185,6 +202,20 @@ public class Serializer {
                         _pos += 2;
 
                         field.set(ins, character);
+                    } else if (clazz == SByte.class) {
+                        byte b = msg.getByte(_pos);
+                        _pos += 1;
+
+                        //add to protocol
+                        field.set(ins, b);
+                    } else if (clazz == SBytes.class) {
+                        int length = (int) msg.getUnsignedInt(_pos);
+                        _pos += 4;
+
+                        byte[] bytes = msg.getBytes(_pos, _pos + length);
+                        _pos += length;
+
+                        field.set(ins, bytes);
                     }
                 }
             }

@@ -59,5 +59,6 @@ All primitive datatypes in Java are supported:
   - double
   - boolean
   - char
+  - byte array (max 4.294.967.296 bytes in an array)
   
-**Complex datatypes** (objects) are **not** supported!
+**Complex datatypes** (objects) are **not** supported yet!

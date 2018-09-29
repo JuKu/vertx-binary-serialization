@@ -22,6 +22,9 @@ public class TestObject implements SerializableObject {
     @SByte
     public byte b = 0x10;
 
+    @SBytes
+    public byte[] bytes = new byte[0];
+
     public TestObject () {
         //
     }
