@@ -200,10 +200,10 @@ public class SerializerTest {
         Serializer.unserialize(buffer, TestObjectWithFinalVariable.class, 0);
     }
 
-    @Test (expected = UnsupportedProtocolVersionException.class)
-    public void testUnserializeImkompatibleVersion () {
-        Buffer buffer = Serializer.serialize(new TestObject());
-        Serializer.unserialize(buffer, TestObjectV1.class, 2);
+    @Test
+    public void testUnserializeDummyAnnotation () {
+        Buffer buffer = Serializer.serialize(new TestObject1());
+        Serializer.unserialize(buffer, TestObject1.class, 2);
     }
 
 }
