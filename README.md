@@ -25,7 +25,7 @@ First create a message object which contains some types (in this case only one i
 ```java
 @MessageType(type = 0x01)
 @ProtocolVersion(1)
-public class TestObject extends SerializableObject {
+public class TestObject implements SerializableObject {
 
     @SInteger
     public int test = 10;
@@ -51,14 +51,14 @@ TestObject obj1 = Serializer.unserialize(buffer, TestObject.class);
 
 All primitive datatypes in Java are supported:
 
-  - byte
-  - short
-  - int
-  - long
-  - float
-  - double
-  - boolean
-  - char
-  - byte array (max 4.294.967.296 bytes in an array)
+  - byte (`@SByte`)
+  - short (`@SShort`)
+  - int (`@SInteger`)
+  - long (`@SLong`)
+  - float (`@SFloat`)
+  - double (`@SDouble`)
+  - boolean (`@SBoolean`)
+  - char (`@SChar`)
+  - byte array (max 4.294.967.296 bytes in an array, `@SBytes`)
   
 **Complex datatypes** (objects) are **not** supported!
