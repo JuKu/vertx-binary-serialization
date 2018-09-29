@@ -27,8 +27,7 @@ public class TypeLookup {
     }
 
     protected static int bytesToInt (byte type, byte extendedType) {
-        int val = ((type & 0xff) << 8) | (extendedType & 0xff);
-        return val;
+        return ((type & 0xff) << 8) | (extendedType & 0xff);
     }
 
 }
