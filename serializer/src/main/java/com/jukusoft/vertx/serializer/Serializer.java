@@ -132,6 +132,12 @@ public class Serializer {
                         //add to protocol
                         buf.setFloat(_pos, floatValue);
                         _pos += 4;
+                    } else if (clazz == SDouble.class) {
+                        double d = field.getDouble(obj);
+
+                        //add to protocol
+                        buf.setDouble(_pos, d);
+                        _pos += 8;
                     }
                 }
             }
@@ -249,6 +255,11 @@ public class Serializer {
                         _pos += 4;
 
                         field.set(ins, floatValue);
+                    } else if (clazz == SDouble.class) {
+                        double d = msg.getDouble(_pos);
+                        _pos += 8;
+
+                        field.set(ins, d);
                     }
                 }
             }
