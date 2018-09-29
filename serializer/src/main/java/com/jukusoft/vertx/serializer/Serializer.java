@@ -52,6 +52,8 @@ public class Serializer {
         try {
             //iterate through all fields in class
             for (Field field : obj.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+
                 //iterate through all annotations for this field
                 for (Annotation annotation : field.getAnnotations()) {
                     Class<? extends Annotation> clazz = annotation.annotationType();
@@ -136,6 +138,8 @@ public class Serializer {
         try {
             //iterate through all fields in class
             for (Field field : cls.getDeclaredFields()) {
+                field.setAccessible(true);
+
                 //iterate through all annotations for this field
                 for (Annotation annotation : field.getAnnotations()) {
                     Class<? extends Annotation> clazz = annotation.annotationType();

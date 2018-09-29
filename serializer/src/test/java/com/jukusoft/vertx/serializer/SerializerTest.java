@@ -185,7 +185,7 @@ public class SerializerTest {
         Serializer.unserialize(buffer, AbstractTestObject.class, 2);
     }
 
-    @Test (expected = SerializerException.class)
+    @Test
     public void testUnserializeWithPrivateVariable () {
         Buffer buffer = Serializer.serialize(new TestObjectWithPrivateVariable());
         Serializer.unserialize(buffer, TestObjectWithPrivateVariable.class, 2);

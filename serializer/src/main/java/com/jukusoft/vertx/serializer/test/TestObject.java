@@ -14,7 +14,7 @@ public class TestObject implements SerializableObject {
     public String testStr = "test";
 
     @SBoolean
-    public boolean testBool = false;
+    protected boolean testBool = false;
 
     public TestObject () {
         //
