@@ -6,14 +6,14 @@ import com.jukusoft.vertx.serializer.annotations.ProtocolVersion;
 import com.jukusoft.vertx.serializer.annotations.SInteger;
 import com.jukusoft.vertx.serializer.annotations.SString;
 
-@MessageType(type = 0x01)
+@MessageType(type = 0x02)
 @ProtocolVersion(1)
-public class TestObject implements SerializableObject {
+public class TestObject1 implements SerializableObject {
 
     @SInteger
-    public int test = 10;
+    public int test = 1;
 
     @SString(maxCharacters = 30)
-    public String testStr = "test";
+    public String testStr = "test_";
 
 }

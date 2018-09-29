@@ -2,6 +2,7 @@ package com.jukusoft.vertx.serializer;
 
 import com.carrotsearch.hppc.IntObjectHashMap;
 import com.carrotsearch.hppc.IntObjectMap;
+import com.jukusoft.vertx.serializer.utils.ByteUtils;
 
 public class TypeLookup {
 
@@ -12,22 +13,18 @@ public class TypeLookup {
     }
 
     public static void register (byte type, byte extendedType, Class<? extends SerializableObject> cls) {
-        int key = bytesToInt(type, extendedType);
+        int key = ByteUtils.twoBytesToInt(type, extendedType);
         map.put(key, cls);
     }
 
     public static void unregister (byte type, byte extendedType) {
-        int key = bytesToInt(type, extendedType);
+        int key = ByteUtils.twoBytesToInt(type, extendedType);
         map.remove(key);
     }
 
     public static Class<? extends SerializableObject> find (byte type, byte extendedType) {
-        int key = bytesToInt(type, extendedType);
+        int key = ByteUtils.twoBytesToInt(type, extendedType);
         return map.get(key);
-    }
-
-    protected static int bytesToInt (byte type, byte extendedType) {
-        return ((type & 0xff) << 8) | (extendedType & 0xff);
     }
 
 }
