@@ -1,9 +1,6 @@
 package com.jukusoft.vertx.serializer;
 
-import com.jukusoft.vertx.serializer.annotations.MessageType;
-import com.jukusoft.vertx.serializer.annotations.ProtocolVersion;
-import com.jukusoft.vertx.serializer.annotations.SInteger;
-import com.jukusoft.vertx.serializer.annotations.SString;
+import com.jukusoft.vertx.serializer.annotations.*;
 import com.jukusoft.vertx.serializer.exceptions.NoMessageTypeException;
 import com.jukusoft.vertx.serializer.exceptions.NoProtocolVersionException;
 import com.jukusoft.vertx.serializer.exceptions.SerializerException;
@@ -80,6 +77,12 @@ public class Serializer {
                         //add string
                         buf.setString(_pos, value);
                         _pos += value.length() * 4;
+                    } else if (clazz == SBoolean.class) {
+                        boolean bool = field.getBoolean(obj);
+
+                        //add to protocol
+                        buf.setByte(_pos, (byte) (bool ? 0x01 : 0x02));
+                        _pos += 1;
                     }
                 }
             }
@@ -153,8 +156,14 @@ public class Serializer {
 
                         //read string
                         String str = msg.getString(_pos, _pos + length);
+                        _pos += length * 4;
 
                         field.set(ins, str);
+                    } else if (clazz == SBoolean.class) {
+                        boolean bool = msg.getByte(_pos) == (byte) 0x01;
+                        _pos += 1;
+
+                        field.set(ins, bool);
                     }
                 }
             }
