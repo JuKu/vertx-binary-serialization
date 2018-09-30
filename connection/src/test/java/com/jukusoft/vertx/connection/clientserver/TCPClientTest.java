@@ -251,7 +251,7 @@ public class TCPClientTest {
         assertEquals(true, b.get());
     }
 
-    @Test
+    /*@Test
     public void testHandleMessageWithDelay1 () {
         TCPClient client = new TCPClient();
         client.setDelay(10, 10);
@@ -270,7 +270,7 @@ public class TCPClientTest {
 
         //check, if handler was called
         assertEquals(true, b.get());
-    }
+    }*/
 
     @Test
     public void testHandleMessageWithExceptionInHandler () {
