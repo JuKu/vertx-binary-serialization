@@ -33,12 +33,12 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.mock-server</groupId>
 			<artifactId>mockserver-client-java</artifactId>
 			<version>5.4.1</version>
 			<scope>test</scope>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 
 	<build>
