@@ -1,5 +1,6 @@
 package com.jukusoft.vertx.connection.clientserver;
 
+import com.jukusoft.vertx.connection.exception.NoHandlerException;
 import com.jukusoft.vertx.serializer.SerializableObject;
 import com.jukusoft.vertx.serializer.Serializer;
 import com.jukusoft.vertx.serializer.exceptions.NetworkException;
@@ -165,7 +166,7 @@ public class TCPClient implements Client {
         MessageHandler handler = this.handlers().findHandler(msg.getClass());
 
         if (handler == null) {
-            throw new IllegalStateException("No handler registered for message class '" + msg.getClass().getCanonicalName() + "'!");
+            throw new NoHandlerException("No handler registered for message class '" + msg.getClass().getCanonicalName() + "'!");
         }
 
         try {
@@ -258,6 +259,10 @@ public class TCPClient implements Client {
 
     @Override
     public void shutdown() {
+        if (!this.initialized.get()) {
+            return;
+        }
+
         this.client.close();
         this.vertx.close();
     }

@@ -1,5 +1,6 @@
 package com.jukusoft.vertx.connection.clientserver;
 
+import com.jukusoft.vertx.connection.exception.NoHandlerException;
 import com.jukusoft.vertx.serializer.Serializer;
 import com.jukusoft.vertx.serializer.TypeLookup;
 import com.jukusoft.vertx.serializer.exceptions.NetworkException;
@@ -82,7 +83,7 @@ public class TCPClientTest {
         client.shutdown();
     }
 
-    @Test (expected = IllegalStateException.class)
+    @Test (expected = NoHandlerException.class)
     public void testHandleMessageWithoutRegisteredHandler () {
         Client client = new TCPClient();
         TypeLookup.register(TestObject.class);
