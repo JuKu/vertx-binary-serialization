@@ -300,4 +300,28 @@ public class TCPClientTest {
         assertEquals(true, b.get());
     }
 
+    @Test
+    public void testShutdown () {
+        Client client = new TCPClient();
+        client.shutdown();
+    }
+
+    @Test
+    public void testShutdown1 () {
+        Client client = new TCPClient();
+        ((TCPClient) client).initialized.set(true);
+        ((TCPClient) client).vertx = null;
+
+        client.shutdown();
+    }
+
+    @Test
+    public void testShutdown2 () {
+        Client client = new TCPClient();
+        client.init();
+        ((TCPClient) client).initialized.set(false);
+
+        client.shutdown();
+    }
+
 }
