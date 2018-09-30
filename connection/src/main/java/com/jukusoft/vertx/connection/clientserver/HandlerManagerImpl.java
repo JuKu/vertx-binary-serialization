@@ -17,6 +17,7 @@ public class HandlerManagerImpl<K extends RemoteConnection> implements HandlerMa
      *
      * @return handler or null, if no handler is registered
     */
+    @Override
     public <T extends SerializableObject> MessageHandler<T,K> findHandler (Class<T> cls) {
         //get type
         MessageType type = getMessageTypeAnnotation(cls);
@@ -27,6 +28,7 @@ public class HandlerManagerImpl<K extends RemoteConnection> implements HandlerMa
         return handlerMap.get(i);
     }
 
+    @Override
     public <T extends SerializableObject> void register (Class<T> cls, MessageHandler<T,K> handler) {
         //get type
         MessageType type = getMessageTypeAnnotation(cls);
@@ -37,6 +39,7 @@ public class HandlerManagerImpl<K extends RemoteConnection> implements HandlerMa
         this.handlerMap.put(i, handler);
     }
 
+    @Override
     public <T extends SerializableObject> void unregister (Class<T> cls) {
         //get type
         MessageType type = getMessageTypeAnnotation(cls);
