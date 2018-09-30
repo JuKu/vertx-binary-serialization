@@ -12,7 +12,17 @@ public class TCPClientTest {
     @Test
     public void testInit () {
         Client client = new TCPClient();
+        client.setThreadPoolSize(2, 2);
         client.init();
+
+        client.shutdown();
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testInitWrongOrder () {
+        Client client = new TCPClient();
+        client.init();
+        client.setThreadPoolSize(2, 2);
 
         client.shutdown();
     }
