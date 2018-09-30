@@ -5,9 +5,7 @@ import com.jukusoft.vertx.serializer.Serializer;
 import com.jukusoft.vertx.serializer.TypeLookup;
 import com.jukusoft.vertx.serializer.exceptions.NetworkException;
 import com.jukusoft.vertx.serializer.test.TestObject;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
+import io.vertx.core.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -172,6 +170,20 @@ public class TCPClientTest {
         ((TCPClient) client).createRemoteConnection();
 
         client.shutdown();
+    }
+
+    @Test
+    public void testConnectHandlerFailed () {
+        TCPClient client = new TCPClient();
+        AtomicBoolean b = new AtomicBoolean(false);
+
+        Handler<AsyncResult<RemoteConnection>> handler = res -> {
+            b.set(res.succeeded());
+        };
+
+        client.connectHandler(null, Future.failedFuture("connection failed"), handler);
+
+        assertEquals(false, b.get());
     }
 
 }
