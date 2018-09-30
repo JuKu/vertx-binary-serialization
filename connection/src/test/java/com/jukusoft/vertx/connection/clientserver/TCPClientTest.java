@@ -78,6 +78,8 @@ public class TCPClientTest {
     public void testHandleMessageWithoutRegisteredMessageType () {
         Client client = new TCPClient();
         ((TCPClient) client).handleMessage(Serializer.serialize(new TestObject()));
+
+        client.shutdown();
     }
 
     @Test (expected = IllegalStateException.class)
@@ -85,10 +87,12 @@ public class TCPClientTest {
         Client client = new TCPClient();
         TypeLookup.register(TestObject.class);
         ((TCPClient) client).handleMessage(Serializer.serialize(new TestObject()));
+
+        client.shutdown();
     }
 
     @Test (expected = NetworkException.class, timeout = 5000)
-    public void testConnectUnavailableServer () throws InterruptedException {
+    public void testConnectUnavailableServer () {
         Client client = new TCPClient();
         client.init();
 
@@ -103,6 +107,8 @@ public class TCPClientTest {
             res1.set(res);
             b.set(true);
         });
+
+        client.shutdown();
     }
 
     @Test (timeout = 5000)
@@ -134,6 +140,18 @@ public class TCPClientTest {
 
         //stop test server
         mockServer.stop();
+
+        client.shutdown();
+    }
+
+    @Test
+    public void testCreateRemoteConnection () {
+        Client client = new TCPClient();
+        client.init();
+
+        ((TCPClient) client).createRemoteConnection();
+
+        client.shutdown();
     }
 
 }

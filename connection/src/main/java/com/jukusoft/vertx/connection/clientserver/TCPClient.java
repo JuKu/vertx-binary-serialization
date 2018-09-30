@@ -112,17 +112,7 @@ public class TCPClient implements Client {
 
             System.out.println("Connected to server " + server.ip + ":" + server.port + " (own port: " + socket.localAddress().port() + ").");
 
-            this.conn = new RemoteConnection() {
-                @Override
-                public void send(SerializableObject msg) {
-                    TCPClient.this.send(msg);
-                }
-
-                @Override
-                public void disconnect() {
-                    TCPClient.this.disconnect();
-                }
-            };
+            this.createRemoteConnection();
 
             Objects.requireNonNull(handler);
             Objects.requireNonNull(this.conn);
@@ -131,8 +121,22 @@ public class TCPClient implements Client {
             handler.handle(Future.succeededFuture(this.conn));
         } else {
             //connection failed
-
+            handler.handle(Future.failedFuture("connection failed!"));
         }
+    }
+
+    protected void createRemoteConnection () {
+        this.conn = new RemoteConnection() {
+            @Override
+            public void send(SerializableObject msg) {
+                TCPClient.this.send(msg);
+            }
+
+            @Override
+            public void disconnect() {
+                TCPClient.this.disconnect();
+            }
+        };
     }
 
     protected void initSocket (BufferStream bufferStream) {
