@@ -179,6 +179,51 @@ public class TCPClientTest {
         TypeLookup.removeAll();
     }
 
+    @Test (timeout = 5000)
+    public void testConnectServerList () throws InterruptedException {
+        //start test server
+        mockServer = startClientAndServer(1080);
+
+        Client client = new TCPClient();
+        client.init();
+
+        //assertEquals(((TCPClient) client).getVertxClient().);
+
+        final AtomicBoolean b = new AtomicBoolean(false);
+        final AtomicReference<AsyncResult<RemoteConnection>> res1 = new AtomicReference<>();
+
+        List<ServerData> serverList = new ArrayList<>();
+        serverList.add(new ServerData("127.0.0.1", 1080));
+
+        client.connect(serverList, res -> {
+            System.out.println("connection state.");
+
+            res1.set(res);
+            b.set(true);
+        });
+
+        while (!b.get()) {
+            //wait for result
+            Thread.currentThread().sleep(50);
+        }
+
+        assertEquals(true, res1.get().succeeded());
+
+        TypeLookup.register(TestObject.class);
+
+        //try to send something
+        client.send(new TestObject());
+
+        client.disconnect();
+
+        client.shutdown();
+
+        //stop test server
+        mockServer.stop();
+
+        TypeLookup.removeAll();
+    }
+
     @Test
     public void testCreateRemoteConnection () {
         Client client = new TCPClient();
