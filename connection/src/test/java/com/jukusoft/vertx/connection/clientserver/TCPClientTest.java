@@ -193,6 +193,7 @@ public class TCPClientTest {
         final AtomicReference<AsyncResult<RemoteConnection>> res1 = new AtomicReference<>();
 
         List<ServerData> serverList = new ArrayList<>();
+        serverList.add(new ServerData("127.0.0.1", 50));
         serverList.add(new ServerData("127.0.0.1", 1080));
 
         client.connect(serverList, res -> {
@@ -261,6 +262,7 @@ public class TCPClientTest {
         List<ServerData> serverList = new ArrayList<>();
         serverList.add(new ServerData("127.0.0.1", 1080));
         serverList.add(new ServerData("127.0.0.1", 50));
+        serverList.add(new ServerData("127.0.0.1", 89));
 
         client.connect(serverList, res -> {
             System.out.println("connection state.");

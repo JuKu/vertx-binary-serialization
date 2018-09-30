@@ -188,7 +188,7 @@ public class TCPClient implements Client {
         }
 
         //first, shuffle list
-        Collections.shuffle(serverList);
+        //Collections.shuffle(serverList);
 
         if (serverList.isEmpty()) {
             throw new IllegalArgumentException("server list is empty or all servers are down!");
