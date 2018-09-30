@@ -28,7 +28,7 @@ public class TCPClient implements Client {
     protected int sendDelay = 0;
     protected int receiveDelay = 0;
     protected int connectTimeout = 500;
-    protected int reconnectAttempts = 1;//10;
+    protected int reconnectAttempts = 3;
     protected int reconnectInterval = 500;
     protected boolean logsEnabled = true;
 
