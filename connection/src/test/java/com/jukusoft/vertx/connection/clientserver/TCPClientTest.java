@@ -169,6 +169,8 @@ public class TCPClientTest {
 
         assertNotNull(((TCPClient) client).getVertxClient());
 
+        client.disconnect();
+
         client.shutdown();
 
         //stop test server
@@ -301,6 +303,13 @@ public class TCPClientTest {
 
         //check, if handler was called
         assertEquals(true, b.get());
+    }
+
+    @Test
+    public void testDisconnect () {
+        Client client = new TCPClient();
+        client.init(vertx);
+        client.disconnect();
     }
 
     @Test
