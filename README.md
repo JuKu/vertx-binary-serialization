@@ -21,30 +21,49 @@ A simple binary serialization method for vertx which uses annotations &amp; refl
   
 ## HowTo
 
-First create a message object which contains some types (in this case only one integer):
+First create some message objects which contains some datatypes:
 ```java
 @MessageType(type = 0x01)
 @ProtocolVersion(1)
-public class TestObject implements SerializableObject {
+public class Message implements SerializableObject {
 
     @SInteger
     public int test = 10;
 
 }
+
+@MessageType(type = 0x02)
+@ProtocolVersion(2)
+public class SecondMessage implements SerializableObject {
+
+    @SString
+    public String myString = "string";
+
+}
 ```
 
-You have to add the annotations `MessageType` with the type (1 byte as type) and `ProtocolVersion` to check, if Serializer on other side can unserialize this object.
+You have to add the annotations `MessageType` with the type (1 byte as type, 1 byte as extended type) and `ProtocolVersion` to check, if Serializer on other side can unserialize this object.
 
 Then you can serialize and unserialize this object easely:
 ```java
 //create message object which implements SerializableObject
-TestObject obj = new TestObject();
+Message msg = new Message();
+SecondMessage msg1 = new SecondMessage();
 
 //serialize object into byte buffer
-Buffer buffer = Serializer.serialize(obj);
+Buffer buffer = Serializer.serialize(msg);
 
 //unserialize object from byte buffer
-TestObject obj1 = Serializer.unserialize(buffer, TestObject.class);
+Message obj1 = Serializer.unserialize(buffer);
+
+//second message
+
+//serialize object into byte buffer
+Buffer buffer = Serializer.serialize(msg1);
+
+//unserialize object from byte buffer
+SecondMessage obj2 = Serializer.unserialize(buffer);
+
 ```
 
 ## Protocol Header
