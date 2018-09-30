@@ -1,6 +1,7 @@
 package com.jukusoft.vertx.connection.clientserver;
 
 import com.jukusoft.vertx.connection.exception.NoHandlerException;
+import com.jukusoft.vertx.serializer.SerializableObject;
 import com.jukusoft.vertx.serializer.Serializer;
 import com.jukusoft.vertx.serializer.TypeLookup;
 import com.jukusoft.vertx.serializer.exceptions.NetworkException;
@@ -172,6 +173,28 @@ public class TCPClientTest {
         client.shutdown();
     }
 
+    @Test (expected = IllegalStateException.class)
+    public void testCreateRemoteConnection1 () {
+        Client client = new TCPClient();
+        client.init(vertx);
+
+        ((TCPClient) client).createRemoteConnection();
+        ((TCPClient) client).conn.send(new TestObject());
+
+        client.shutdown();
+    }
+
+    @Test
+    public void testCreateRemoteConnection2 () {
+        Client client = new TCPClient();
+        client.init(vertx);
+
+        ((TCPClient) client).createRemoteConnection();
+        ((TCPClient) client).conn.disconnect();
+
+        client.shutdown();
+    }
+
     @Test
     public void testConnectHandlerFailed () {
         TCPClient client = new TCPClient();
@@ -184,6 +207,26 @@ public class TCPClientTest {
         client.connectHandler(null, Future.failedFuture("connection failed"), handler);
 
         assertEquals(false, b.get());
+    }
+
+    @Test
+    public void testHandleMessageWithDelay () {
+        TCPClient client = new TCPClient();
+        client.init(vertx);
+
+        AtomicBoolean b = new AtomicBoolean(false);
+
+        TypeLookup.register(TestObject.class);
+        client.handlers().register(TestObject.class, (msg, conn) -> {
+            b.set(true);
+        });
+
+        client.handleMessageWithDelay(Serializer.serialize(new TestObject()));
+
+        TypeLookup.removeAll();
+
+        //check, if handler was called
+        assertEquals(true, b.get());
     }
 
 }
