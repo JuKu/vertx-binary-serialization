@@ -57,6 +57,14 @@ public class TCPClient implements Client {
         vertxOptions.setMaxEventLoopExecuteTime(5000);
         vertxOptions.setMaxWorkerExecuteTime(5000);
 
+        //create new NetClient
+        this.vertx = Vertx.vertx(vertxOptions);
+
+        this.init(this.vertx);
+    }
+
+    @Override
+    public void init (Vertx vertx) {
         //set timeouts
         options.setConnectTimeout(this.connectTimeout);
 
@@ -66,9 +74,6 @@ public class TCPClient implements Client {
 
         //set logging options
         options.setLogActivity(this.logsEnabled);
-
-        //create new NetClient
-        this.vertx = Vertx.vertx(vertxOptions);
         this.client = vertx.createNetClient(options);
 
         this.initialized.set(true);
@@ -259,7 +264,7 @@ public class TCPClient implements Client {
 
     @Override
     public void shutdown() {
-        if (!this.initialized.get()) {
+        if (!this.initialized.get() || this.vertx == null) {
             return;
         }
 

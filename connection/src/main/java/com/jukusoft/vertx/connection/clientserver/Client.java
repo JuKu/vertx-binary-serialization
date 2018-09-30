@@ -3,12 +3,15 @@ package com.jukusoft.vertx.connection.clientserver;
 import com.jukusoft.vertx.serializer.SerializableObject;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
 
 import java.util.List;
 
 public interface Client {
 
     public void init ();
+
+    public void init (Vertx vertx);
 
     /**
     * connect to server
