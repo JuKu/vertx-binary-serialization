@@ -69,6 +69,10 @@ public class TCPClient implements Client {
 
     @Override
     public void connect(final ServerData server, final Handler<AsyncResult<RemoteConnection>> handler) {
+        if (!this.initialized.get()) {
+            throw new IllegalStateException("Before connecting, initialization is required. Call TCPClient.init() first!");
+        }
+
         //try to connect to server
         this.client.connect(server.port, server.ip, res -> this.connectHandler(server, res, handler));
     }
