@@ -236,4 +236,26 @@ public class TCPClientTest {
         assertEquals(true, b.get());
     }
 
+    @Test
+    public void testHandleMessageWithExceptionInHandler () {
+        TCPClient client = new TCPClient();
+        client.init(vertx);
+
+        AtomicBoolean b = new AtomicBoolean(false);
+
+        TypeLookup.register(TestObject.class);
+        client.handlers().register(TestObject.class, (msg, conn) -> {
+            b.set(true);
+
+            throw new Exception("test exception.");
+        });
+
+        client.handleMessageWithDelay(Serializer.serialize(new TestObject()));
+
+        TypeLookup.removeAll();
+
+        //check, if handler was called
+        assertEquals(true, b.get());
+    }
+
 }
