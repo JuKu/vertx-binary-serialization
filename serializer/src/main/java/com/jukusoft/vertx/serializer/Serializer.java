@@ -6,6 +6,7 @@ import com.jukusoft.vertx.serializer.exceptions.NoProtocolVersionException;
 import com.jukusoft.vertx.serializer.exceptions.SerializerException;
 import com.jukusoft.vertx.serializer.exceptions.UnsupportedProtocolVersionException;
 import com.jukusoft.vertx.serializer.utils.ByteUtils;
+import com.jukusoft.vertx.serializer.utils.ExceptionUtils;
 import io.vertx.core.buffer.Buffer;
 
 import java.lang.annotation.Annotation;
@@ -49,12 +50,9 @@ public class Serializer {
         buf.setShort(_pos, version.value());
         _pos += 2;
 
-        try {
-            serializeFields(buf, obj, _pos);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new SerializerException("Cannot access field in class " + obj.getClass().getCanonicalName() + "!");
-        }
+        final int pos = _pos;
+
+        ExceptionUtils.executeWithoutIllegalAccessException(() -> serializeFields(buf, obj, pos));
 
         return buf;
     }
