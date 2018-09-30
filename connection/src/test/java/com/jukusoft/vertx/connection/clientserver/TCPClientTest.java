@@ -160,6 +160,9 @@ public class TCPClientTest {
         //send with delay
         client.send(new TestObject());
 
+        //send with RemoteConnection instance
+        ((TCPClient) client).conn.send(new TestObject());
+
         client.shutdown();
 
         //stop test server
