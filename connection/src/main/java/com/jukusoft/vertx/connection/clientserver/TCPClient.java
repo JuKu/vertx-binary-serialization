@@ -13,6 +13,7 @@ import io.vertx.core.net.NetSocket;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TCPClient implements Client {
@@ -27,9 +28,9 @@ public class TCPClient implements Client {
     protected int sendDelay = 0;
     protected int receiveDelay = 0;
     protected int connectTimeout = 500;
-    protected int reconnectAttempts = 10;
+    protected int reconnectAttempts = 1;//10;
     protected int reconnectInterval = 500;
-    protected boolean logsEnabled = false;
+    protected boolean logsEnabled = true;
 
     //message handler lookup manager
     protected HandlerManager<RemoteConnection> handlerManager = new HandlerManagerImpl<>();
@@ -47,12 +48,13 @@ public class TCPClient implements Client {
 
     @Override
     public void init() {
-        this.vertx = Vertx.vertx(vertxOptions);
-        this.client = vertx.createNetClient(options);
-
         //set thread count
         vertxOptions.setEventLoopPoolSize(eventThreads);
         vertxOptions.setWorkerPoolSize(workerThreads);
+
+        //set thread pool timeouts
+        vertxOptions.setMaxEventLoopExecuteTime(5000);
+        vertxOptions.setMaxWorkerExecuteTime(5000);
 
         //set timeouts
         options.setConnectTimeout(this.connectTimeout);
@@ -64,6 +66,10 @@ public class TCPClient implements Client {
         //set logging options
         options.setLogActivity(this.logsEnabled);
 
+        //create new NetClient
+        this.vertx = Vertx.vertx(vertxOptions);
+        this.client = vertx.createNetClient(options);
+
         this.initialized.set(true);
     }
 
@@ -71,6 +77,15 @@ public class TCPClient implements Client {
     public void connect(final ServerData server, final Handler<AsyncResult<RemoteConnection>> handler) {
         if (!this.initialized.get()) {
             throw new IllegalStateException("Before connecting, initialization is required. Call TCPClient.init() first!");
+        }
+
+        Objects.requireNonNull(server);
+        Objects.requireNonNull(handler);
+
+        //check, if server is available
+        if (!SocketUtils.checkRemoteTCPPort(server.ip, server.port, this.connectTimeout)) {
+            //server isn't available
+            throw new NetworkException("Server is currently not available! Maybe server is down?");
         }
 
         //try to connect to server
@@ -108,6 +123,9 @@ public class TCPClient implements Client {
                     TCPClient.this.disconnect();
                 }
             };
+
+            Objects.requireNonNull(handler);
+            Objects.requireNonNull(this.conn);
 
             //call handler, so UI can be updated
             handler.handle(Future.succeededFuture(this.conn));
