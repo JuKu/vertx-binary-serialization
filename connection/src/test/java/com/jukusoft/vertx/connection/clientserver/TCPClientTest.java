@@ -68,8 +68,6 @@ public class TCPClientTest {
         Client client = new TCPClient();
         client.init(vertx);
         client.setThreadPoolSize(2, 2);
-
-        client.shutdown();
     }
 
     @Test (expected = IllegalStateException.class)
@@ -97,8 +95,6 @@ public class TCPClientTest {
 
         Client client = new TCPClient();
         ((TCPClient) client).handleMessage(Serializer.serialize(new TestObject()));
-
-        client.shutdown();
     }
 
     @Test (expected = NoHandlerException.class)
@@ -106,8 +102,6 @@ public class TCPClientTest {
         Client client = new TCPClient();
         TypeLookup.register(TestObject.class);
         ((TCPClient) client).handleMessage(Serializer.serialize(new TestObject()));
-
-        client.shutdown();
     }
 
     @Test (expected = NetworkException.class, timeout = 5000)
@@ -126,8 +120,6 @@ public class TCPClientTest {
             res1.set(res);
             b.set(true);
         });
-
-        client.shutdown();
     }
 
     @Test (timeout = 5000)
@@ -159,8 +151,6 @@ public class TCPClientTest {
 
         //stop test server
         mockServer.stop();
-
-        client.shutdown();
     }
 
     @Test
@@ -169,8 +159,6 @@ public class TCPClientTest {
         client.init(vertx);
 
         ((TCPClient) client).createRemoteConnection();
-
-        client.shutdown();
     }
 
     @Test (expected = IllegalStateException.class)
@@ -180,8 +168,6 @@ public class TCPClientTest {
 
         ((TCPClient) client).createRemoteConnection();
         ((TCPClient) client).conn.send(new TestObject());
-
-        client.shutdown();
     }
 
     @Test
@@ -191,8 +177,29 @@ public class TCPClientTest {
 
         ((TCPClient) client).createRemoteConnection();
         ((TCPClient) client).conn.disconnect();
+    }
 
-        client.shutdown();
+    @Test (expected = IllegalStateException.class)
+    public void testCreateRemoteConnection3 () {
+        Client client = new TCPClient();
+        client.init(vertx);
+
+        AtomicBoolean b = new AtomicBoolean(false);
+
+        TypeLookup.register(TestObject.class);
+        client.handlers().register(TestObject.class, (msg, conn) -> {
+            b.set(true);
+        });
+
+        ((TCPClient) client).createRemoteConnection();
+
+        //this line should throw an IllegalStateException, because no connection is established yet.
+        ((TCPClient) client).conn.send(new TestObject());
+
+        TypeLookup.removeAll();
+
+        //check, if handler was called
+        assertEquals(true, b.get());
     }
 
     @Test
