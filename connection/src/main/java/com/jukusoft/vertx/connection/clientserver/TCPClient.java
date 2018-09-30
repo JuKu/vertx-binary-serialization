@@ -43,6 +43,7 @@ public class TCPClient implements Client {
     protected int workerThreads = 2;
 
     protected RemoteConnection conn = null;
+    protected NetSocket socket = null;
 
     @Override
     public void init() {
@@ -77,7 +78,7 @@ public class TCPClient implements Client {
             //connection established
 
             //get socket
-            NetSocket socket = res.result();
+            this.socket = res.result();
 
             this.bufferStream = new BufferStream(socket, socket);
 
@@ -186,8 +187,9 @@ public class TCPClient implements Client {
 
     @Override
     public void disconnect() {
-        this.client.close();
-        this.vertx.close();
+        if (this.socket != null) {
+            this.socket.close();
+        }
     }
 
     @Override
@@ -226,6 +228,12 @@ public class TCPClient implements Client {
 
         this.eventThreads = eventThreads;
         this.workerThreads = workerThreads;
+    }
+
+    @Override
+    public void shutdown() {
+        this.client.close();
+        this.vertx.close();
     }
 
     protected void onConnectionClosed(Void v) {
