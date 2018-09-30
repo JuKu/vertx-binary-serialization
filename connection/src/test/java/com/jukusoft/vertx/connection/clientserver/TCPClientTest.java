@@ -163,6 +163,9 @@ public class TCPClientTest {
         //send with RemoteConnection instance
         ((TCPClient) client).conn.send(new TestObject());
 
+        //receive message with delay
+        ((TCPClient) client).handleMessageWithDelay(Serializer.serialize(new TestObject()));
+
         client.shutdown();
 
         //stop test server
