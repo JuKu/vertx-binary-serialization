@@ -35,6 +35,9 @@ public class Message implements SerializableObject {
 @MessageType(type = 0x02)
 @ProtocolVersion(2)
 public class SecondMessage implements SerializableObject {
+    
+    @SFloat
+    public float a = 0f;
 
     @SString
     public String myString = null;
@@ -49,7 +52,9 @@ Then you can serialize and unserialize this object easely:
 //create message object which implements SerializableObject
 Message msg = new Message();
 msg.test = 20;
+
 SecondMessage msg1 = new SecondMessage();
+msg1.a = 0.2f;
 msg1.myString = "my-new-string";
 
 //serialize object into byte buffer
@@ -57,6 +62,9 @@ Buffer buffer = Serializer.serialize(msg);
 
 //unserialize object from byte buffer
 Message obj1 = Serializer.unserialize(buffer);
+
+//get value
+System.out.println("test value: " + obj1.test);
 
 //second message
 
@@ -66,7 +74,13 @@ Buffer buffer = Serializer.serialize(msg1);
 //unserialize object from byte buffer
 SecondMessage obj2 = Serializer.unserialize(buffer);
 
+//get value(s)
+System.out.println("float value: " + obj2.a);
+System.out.println("string value: " + obj2.myString);
 ```
+
+**NOTICE**: `public` variables aren't required, they can also be `private` or `protected` instead.
+But to avoid getters & setters here, we have accessed them directly in this example.
 
 ## Protocol Header
 
