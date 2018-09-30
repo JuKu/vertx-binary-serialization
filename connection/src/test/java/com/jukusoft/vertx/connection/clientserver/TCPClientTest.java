@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 
 public class TCPClientTest {
@@ -165,6 +166,8 @@ public class TCPClientTest {
 
         //receive message with delay
         ((TCPClient) client).handleMessageWithDelay(Serializer.serialize(new TestObject()));
+
+        assertNotNull(((TCPClient) client).getVertxClient());
 
         client.shutdown();
 
