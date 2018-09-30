@@ -1,4 +1,4 @@
-package com.jukusoft.vertx.serializer.utils;
+package com.jukusoft.vertx.connection.utils;
 
 import org.junit.Test;
 

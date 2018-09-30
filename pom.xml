@@ -11,6 +11,7 @@
 	<modules>
 		<module>serializer</module>
 		<module>benchmark</module>
+		<module>connection</module>
 	</modules>
 
 	<properties>

@@ -1,4 +1,4 @@
-package com.jukusoft.vertx.serializer.utils;
+package com.jukusoft.vertx.connection.utils;
 
 import java.io.IOException;
 import java.net.*;
@@ -27,7 +27,7 @@ public class SocketUtils {
      *
      * @return true, if port is open
     */
-    public static boolean checkRemoteTCPPort (String ip, int port, int timeout) throws IOException {
+    public static boolean checkRemoteTCPPort (String ip, int port, int timeout) {
         try (Socket s = new Socket()) {
             s.setReuseAddress(true);
             SocketAddress sa = new InetSocketAddress(ip, port);
@@ -39,6 +39,9 @@ public class SocketUtils {
             }
 
             return s.isConnected();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

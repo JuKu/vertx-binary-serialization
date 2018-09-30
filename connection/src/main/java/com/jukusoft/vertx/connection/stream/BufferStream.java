@@ -1,4 +1,4 @@
-package com.jukusoft.vertx.serializer.stream;
+package com.jukusoft.vertx.connection.stream;
 
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
