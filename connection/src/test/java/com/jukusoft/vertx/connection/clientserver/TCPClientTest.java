@@ -128,7 +128,7 @@ public class TCPClientTest {
         mockServer = startClientAndServer(1080);
 
         Client client = new TCPClient();
-        client.init(vertx);
+        client.init();
 
         //assertEquals(((TCPClient) client).getVertxClient().);
 
@@ -149,8 +149,23 @@ public class TCPClientTest {
 
         assertEquals(true, res1.get().succeeded());
 
+        TypeLookup.register(TestObject.class);
+
+        //try to send something
+        client.send(new TestObject());
+
+        //set delay
+        client.setDelay(10, 10);
+
+        //send with delay
+        client.send(new TestObject());
+
+        client.shutdown();
+
         //stop test server
         mockServer.stop();
+
+        TypeLookup.removeAll();
     }
 
     @Test
@@ -219,6 +234,27 @@ public class TCPClientTest {
     @Test
     public void testHandleMessageWithDelay () {
         TCPClient client = new TCPClient();
+        client.init(vertx);
+
+        AtomicBoolean b = new AtomicBoolean(false);
+
+        TypeLookup.register(TestObject.class);
+        client.handlers().register(TestObject.class, (msg, conn) -> {
+            b.set(true);
+        });
+
+        client.handleMessageWithDelay(Serializer.serialize(new TestObject()));
+
+        TypeLookup.removeAll();
+
+        //check, if handler was called
+        assertEquals(true, b.get());
+    }
+
+    @Test
+    public void testHandleMessageWithDelay1 () {
+        TCPClient client = new TCPClient();
+        client.setDelay(10, 10);
         client.init(vertx);
 
         AtomicBoolean b = new AtomicBoolean(false);

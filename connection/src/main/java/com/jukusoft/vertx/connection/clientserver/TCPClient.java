@@ -246,7 +246,7 @@ public class TCPClient implements Client {
 
         //if configuration has send delay enable, delay sending message to simulate external server
         if (this.sendDelay > 0) {
-            vertx.setTimer(this.sendDelay, timerID -> this.bufferStream.write(content));
+            TCPClient.this.vertx.setTimer(this.sendDelay, timerID -> this.bufferStream.write(content));
         } else {
             this.bufferStream.write(content);
         }
