@@ -28,7 +28,7 @@ First create some message objects which contains some datatypes:
 public class Message implements SerializableObject {
 
     @SInteger
-    public int test = 10;
+    public int test = 0;
 
 }
 
@@ -37,7 +37,7 @@ public class Message implements SerializableObject {
 public class SecondMessage implements SerializableObject {
 
     @SString
-    public String myString = "string";
+    public String myString = null;
 
 }
 ```
@@ -48,7 +48,9 @@ Then you can serialize and unserialize this object easely:
 ```java
 //create message object which implements SerializableObject
 Message msg = new Message();
+msg.test = 20;
 SecondMessage msg1 = new SecondMessage();
+msg1.myString = "my-new-string";
 
 //serialize object into byte buffer
 Buffer buffer = Serializer.serialize(msg);
