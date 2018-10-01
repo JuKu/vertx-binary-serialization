@@ -125,7 +125,7 @@ public class TCPClientTest {
         });
     }
 
-    @Test (timeout = 5000)
+    @Test (timeout = 10000)
     public void testConnectServer () throws InterruptedException {
         //start test server
         mockServer = startClientAndServer(1080);
