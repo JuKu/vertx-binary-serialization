@@ -190,7 +190,7 @@ public class TCPClientTest {
         TypeLookup.removeAll();
     }
 
-    @Test (timeout = 5000)
+    @Test (timeout = 10000)
     public void testConnectServerList () throws InterruptedException {
         //start test server
         mockServer = startClientAndServer(1080);
