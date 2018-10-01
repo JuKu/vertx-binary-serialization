@@ -106,3 +106,9 @@ All primitive datatypes in Java are supported:
   - byte array (max 4.294.967.296 bytes in an array, `@SBytes`)
   
 **Complex datatypes** (objects) are **not** supported!
+
+## Run Sonarcloud
+
+```bash
+clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=jukusoft -Dsonar.login=<Sonar-Token>
+```
