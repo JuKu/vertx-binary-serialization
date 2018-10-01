@@ -5,11 +5,15 @@ import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
+import io.vertx.core.buffer.Buffer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class TCPServerTest {
 
@@ -106,6 +110,34 @@ public class TCPServerTest {
         Server server = new TCPServer();
         server.init(vertx);
         server.setThreadPoolSize(2, 2);
+    }
+
+    @Test
+    public void testSetThreadPoolSize () {
+        Server server = new TCPServer();
+        server.setThreadPoolSize(2, 2);
+        server.init(vertx);
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testSetCustomHandlerWithAlreadyInitializedServer () {
+        Server server = new TCPServer();
+        server.init(vertx);
+        server.setCustomHandler((msg, conn) -> {
+            //do something
+        });
+    }
+
+    @Test
+    public void testSetCustomHandler () {
+        Server server = new TCPServer();
+        server.setCustomHandler((msg, conn) -> {
+            //do something
+        });
+        server.init(vertx);
+
+        assertNotNull(server.getNetServerOptions());
+        assertNotNull(((TCPServer) server).customHandler);
     }
 
 }
