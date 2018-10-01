@@ -3,6 +3,7 @@ package com.jukusoft.vertx.connection.clientserver;
 import com.jukusoft.vertx.serializer.SerializableObject;
 import com.jukusoft.vertx.serializer.TypeLookup;
 import com.jukusoft.vertx.serializer.test.TestObject;
+import com.jukusoft.vertx.serializer.test.TestObject1;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -18,33 +19,10 @@ import static org.junit.Assert.assertEquals;
 
 public class ClientServerTest {
 
-    protected static VertxOptions vertxOptions = new VertxOptions();
-    protected static Vertx vertx = null;
-
-    @BeforeClass
-    public static void beforeClass () {
-        TypeLookup.removeAll();
-
-        //set thread count
-        vertxOptions.setEventLoopPoolSize(2);
-        vertxOptions.setWorkerPoolSize(2);
-
-        //set thread pool timeouts
-        vertxOptions.setMaxEventLoopExecuteTime(10000);
-        vertxOptions.setMaxWorkerExecuteTime(10000);
-
-        //create new NetClient
-        vertx = Vertx.vertx(vertxOptions);
-    }
-
-    @AfterClass
-    public static void afterClass () {
-        TypeLookup.removeAll();
-        vertx.close();
-    }
-
     @Test (timeout = 30000)
     public void testClientServerConnect () throws InterruptedException {
+        TypeLookup.removeAll();
+
         AtomicBoolean a = new AtomicBoolean(false);
         AtomicBoolean b = new AtomicBoolean(false);
         AtomicBoolean newClientHandlerCalled = new AtomicBoolean(false);
@@ -77,10 +55,13 @@ public class ClientServerTest {
 
     @Test (timeout = 30000)
     public void testClientServerSendMessage () throws InterruptedException {
+        TypeLookup.removeAll();
+
         AtomicBoolean a = new AtomicBoolean(false);
         AtomicBoolean b = new AtomicBoolean(false);
         AtomicBoolean newClientHandlerCalled = new AtomicBoolean(false);
         AtomicBoolean messageHandlerWasCalled = new AtomicBoolean(false);
+        AtomicBoolean clientReceivedMessage = new AtomicBoolean(false);
 
         AtomicLong messageReceivedTimestamp = new AtomicLong(0);
 
@@ -90,15 +71,23 @@ public class ClientServerTest {
             newClientHandlerCalled.set(true);
 
             conn.setMessageHandler((msg, conn1) -> {
+                System.err.println("server conn message handler executed.");
+
                 messageHandlerWasCalled.set(true);
                 messageReceivedTimestamp.set(System.currentTimeMillis());
             });
+
+            conn.send(new TestObject1());
         });
         server.init();
         server.start(5123, event -> a.set(true));
 
         //create and start new tcp client
         Client client = new TCPClient();
+        client.handlers().register(TestObject1.class, (msg, conn) -> {
+            System.err.println("client conn message handler executed.");
+            clientReceivedMessage.set(true);
+        });
         client.init();
 
         //connect to server
@@ -112,6 +101,7 @@ public class ClientServerTest {
         assertEquals(true, newClientHandlerCalled.get());
 
         TypeLookup.register(TestObject.class);
+        TypeLookup.register(TestObject1.class);
 
         long startTime = System.currentTimeMillis();
 
@@ -143,6 +133,8 @@ public class ClientServerTest {
         diffTime = endTime - startTime;
 
         System.err.println("[Benchmark] time required for sending TestObject 10 times: " + diffTime + "ms");
+
+        assertEquals(true, clientReceivedMessage.get());
 
         client.shutdown();
         server.shutdown();

@@ -215,6 +215,7 @@ public class TCPClient implements Client {
 
         try {
             handler.handle(msg, this.conn);
+            System.err.println("DEBUG: handleMessage() executed, handler: " + handler.getClass().getCanonicalName());
         } catch (Exception e) {
             e.printStackTrace();
         }
