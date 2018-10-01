@@ -1,5 +1,7 @@
 package com.jukusoft.vertx.connection.clientserver;
 
+import com.carrotsearch.hppc.ObjectObjectHashMap;
+import com.carrotsearch.hppc.ObjectObjectMap;
 import com.jukusoft.vertx.connection.exception.NoHandlerException;
 import com.jukusoft.vertx.serializer.SerializableObject;
 import com.jukusoft.vertx.serializer.Serializer;
@@ -46,6 +48,9 @@ public class TCPClient implements Client {
 
     protected RemoteConnection conn = null;
     protected NetSocket socket = null;
+
+    //channel attributes, like login state and so on
+    protected ObjectObjectMap<String,Object> attributes = new ObjectObjectHashMap<>();
 
     @Override
     public void init() {
@@ -136,6 +141,21 @@ public class TCPClient implements Client {
             @Override
             public void send(SerializableObject msg) {
                 TCPClient.this.send(msg);
+            }
+
+            @Override
+            public ObjectObjectMap<String, Object> attributes() {
+                return TCPClient.this.attributes();
+            }
+
+            @Override
+            public <V> V getAttribute(String key, Class<V> cls) {
+                return TCPClient.this.getAttribute(key, cls);
+            }
+
+            @Override
+            public void putAttribute(String key, Object obj) {
+                TCPClient.this.putAttribute(key, obj);
             }
 
             @Override
@@ -255,6 +275,28 @@ public class TCPClient implements Client {
         } else {
             this.bufferStream.write(content);
         }
+    }
+
+    @Override
+    public ObjectObjectMap<String, Object> attributes() {
+        return this.attributes;
+    }
+
+    @Override
+    public <V> V getAttribute(String key, Class<V> cls) {
+        Object obj = this.attributes.get(key);
+
+        if (obj == null) {
+            //attribute key doesn't exists
+            return null;
+        }
+
+        return cls.cast(obj);
+    }
+
+    @Override
+    public void putAttribute(String key, Object obj) {
+        this.attributes.put(key, obj);
     }
 
     @Override

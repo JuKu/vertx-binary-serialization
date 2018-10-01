@@ -19,6 +19,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockserver.integration.ClientAndServer.startClientAndServer;
 
 public class TCPClientTest {
@@ -168,6 +169,12 @@ public class TCPClientTest {
         ((TCPClient) client).handleMessageWithDelay(Serializer.serialize(new TestObject()));
 
         assertNotNull(((TCPClient) client).getVertxClient());
+
+        //test attributes
+        assertNotNull(((TCPClient) client).conn.attributes());
+        assertNull(((TCPClient) client).conn.getAttribute("test", String.class));
+        ((TCPClient) client).conn.putAttribute("test", "test");
+        assertNotNull(((TCPClient) client).conn.getAttribute("test", String.class));
 
         client.disconnect();
 
@@ -414,6 +421,11 @@ public class TCPClientTest {
 
         //check, if handler was called
         assertEquals(true, b.get());
+    }
+
+    @Test
+    public void testAttributes () {
+        //
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.jukusoft.vertx.connection.clientserver;
 
+import com.carrotsearch.hppc.ObjectObjectMap;
 import com.jukusoft.vertx.serializer.SerializableObject;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -39,6 +40,12 @@ public interface Client {
     public void send (SerializableObject msg);
 
     public void sendRaw (Buffer msg);
+
+    public ObjectObjectMap<String,Object> attributes ();
+
+    public <V> V getAttribute (String key, Class<V> cls);
+
+    public void putAttribute (String key, Object value);
 
     public void setThreadPoolSize (int eventThreads, int workerThreads);
 
