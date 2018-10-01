@@ -8,6 +8,8 @@ import org.junit.Test;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class ClientConnectionImplTest {
 
@@ -34,6 +36,17 @@ public class ClientConnectionImplTest {
 
         //check, if write() was called
         assertEquals(true, b.get());
+    }
+
+    @Test
+    public void testAttributes () {
+        ClientConnectionImpl conn = new ClientConnectionImpl();
+
+        //test attributes
+        assertNotNull(conn.attributes());
+        assertNull(conn.getAttribute("test", String.class));
+        conn.putAttribute("test", "test");
+        assertNotNull(conn.getAttribute("test", String.class));
     }
 
 }
