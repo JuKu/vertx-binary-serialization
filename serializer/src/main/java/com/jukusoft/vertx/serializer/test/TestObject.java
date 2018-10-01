@@ -2,6 +2,7 @@ package com.jukusoft.vertx.serializer.test;
 
 import com.jukusoft.vertx.serializer.SerializableObject;
 import com.jukusoft.vertx.serializer.annotations.*;
+import io.vertx.core.buffer.Buffer;
 
 @MessageType(type = 0x01, extendedType = 0x01)
 @ProtocolVersion(1)
@@ -30,6 +31,9 @@ public class TestObject implements SerializableObject {
 
     @SLong
     public long longValue = 40;
+
+    @SBuffer
+    public Buffer buffer = Buffer.buffer();
 
     @SFloat
     public float floatValue = 1.20f;

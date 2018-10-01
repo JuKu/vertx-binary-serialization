@@ -146,6 +146,20 @@ public class Serializer {
                     //add to protocol
                     buf.setDouble(_pos, d);
                     _pos += 8;
+                } else if (clazz == SBuffer.class) {
+                    Buffer content = (Buffer) field.get(obj);
+
+                    if (content == null) {
+                        throw new NullPointerException("buffer in field '" + field.getName() + "' in class '" + clazz.getCanonicalName() + "' cannot be null!");
+                    }
+
+                    //add length of buffer
+                    buf.setInt(_pos, content.length());
+                    _pos += 4;
+
+                    //add string
+                    buf.setBuffer(_pos, content);
+                    _pos += content.length();
                 }
             }
         }
@@ -262,6 +276,15 @@ public class Serializer {
                         _pos += 8;
 
                         field.set(ins, d);
+                    } else if (clazz == SBuffer.class) {
+                        //get length of buffer
+                        int length = msg.getInt(_pos);
+                        _pos += 4;
+
+                        Buffer content = msg.getBuffer(_pos, _pos + length);
+                        _pos += length;
+
+                        field.set(ins, content);
                     }
                 }
             }
