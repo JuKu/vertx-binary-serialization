@@ -119,4 +119,8 @@ public class ClientConnectionImpl implements RemoteConnection {
         this.rawHandler = rawHandler;
     }
 
+    public void setCloseHandler (Handler<RemoteConnection> closeHandler) {
+        this.closeHandler = closeHandler;
+    }
+
 }

@@ -2,9 +2,16 @@ package com.jukusoft.vertx.connection.clientserver;
 
 import com.jukusoft.vertx.connection.stream.BufferStream;
 import com.jukusoft.vertx.serializer.test.TestObject;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.net.NetSocket;
+import io.vertx.core.net.SocketAddress;
 import org.junit.Test;
 
+import javax.net.ssl.SSLPeerUnverifiedException;
+import javax.net.ssl.SSLSession;
+import javax.security.cert.X509Certificate;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.assertEquals;
@@ -47,6 +54,183 @@ public class ClientConnectionImplTest {
         assertNull(conn.getAttribute("test", String.class));
         conn.putAttribute("test", "test");
         assertNotNull(conn.getAttribute("test", String.class));
+    }
+
+    @Test
+    public void testGetIpAndPort () {
+        ClientConnectionImpl conn = new ClientConnectionImpl();
+        conn.socket = createNetSocket();
+
+        assertEquals("127.0.0.1", conn.getIP());
+        assertEquals(51, conn.getPort());
+    }
+
+    @Test
+    public void testDisconnect () {
+        ClientConnectionImpl conn = new ClientConnectionImpl();
+        conn.socket = createNetSocket();
+
+        conn.disconnect();
+    }
+
+    @Test
+    public void testDisconnectHandler () {
+        ClientConnectionImpl conn = new ClientConnectionImpl();
+        conn.socket = createNetSocket();
+
+        AtomicBoolean b = new AtomicBoolean(false);
+
+        conn.setCloseHandler(conn1 -> {
+            b.set(true);
+        });
+
+        conn.disconnect();
+
+        assertEquals(true, b.get());
+    }
+
+    protected static NetSocket createNetSocket () {
+        return new NetSocket() {
+            @Override
+            public NetSocket exceptionHandler(Handler<Throwable> handler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket handler(Handler<Buffer> handler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket pause() {
+                return null;
+            }
+
+            @Override
+            public NetSocket resume() {
+                return null;
+            }
+
+            @Override
+            public NetSocket endHandler(Handler<Void> endHandler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket write(Buffer data) {
+                return null;
+            }
+
+            @Override
+            public NetSocket setWriteQueueMaxSize(int maxSize) {
+                return null;
+            }
+
+            @Override
+            public NetSocket drainHandler(Handler<Void> handler) {
+                return null;
+            }
+
+            @Override
+            public String writeHandlerID() {
+                return null;
+            }
+
+            @Override
+            public NetSocket write(String str) {
+                return null;
+            }
+
+            @Override
+            public NetSocket write(String str, String enc) {
+                return null;
+            }
+
+            @Override
+            public NetSocket sendFile(String filename, long offset, long length) {
+                return null;
+            }
+
+            @Override
+            public NetSocket sendFile(String filename, long offset, long length, Handler<AsyncResult<Void>> resultHandler) {
+                return null;
+            }
+
+            @Override
+            public SocketAddress remoteAddress() {
+                return new SocketAddress() {
+                    @Override
+                    public String host() {
+                        return "127.0.0.1";
+                    }
+
+                    @Override
+                    public int port() {
+                        return 51;
+                    }
+
+                    @Override
+                    public String path() {
+                        return null;
+                    }
+                };
+            }
+
+            @Override
+            public SocketAddress localAddress() {
+                return null;
+            }
+
+            @Override
+            public void end() {
+
+            }
+
+            @Override
+            public void close() {
+
+            }
+
+            @Override
+            public NetSocket closeHandler(Handler<Void> handler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket upgradeToSsl(Handler<Void> handler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket upgradeToSsl(String serverName, Handler<Void> handler) {
+                return null;
+            }
+
+            @Override
+            public boolean isSsl() {
+                return false;
+            }
+
+            @Override
+            public SSLSession sslSession() {
+                return null;
+            }
+
+            @Override
+            public X509Certificate[] peerCertificateChain() throws SSLPeerUnverifiedException {
+                return new X509Certificate[0];
+            }
+
+            @Override
+            public String indicatedServerName() {
+                return null;
+            }
+
+            @Override
+            public boolean writeQueueFull() {
+                return false;
+            }
+        };
     }
 
 }
