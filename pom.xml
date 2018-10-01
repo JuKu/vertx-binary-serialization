@@ -7,7 +7,7 @@
 	<groupId>com.jukusoft</groupId>
 	<artifactId>vertx-binary-serializer-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<modules>
 		<module>serializer</module>
 		<module>benchmark</module>
@@ -208,16 +208,16 @@
 			</plugin>
 
 			<!-- deploy to sonatype repository -->
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.8</version><!-- 1.6.6 -->
+				<version>1.6.8</version>
 				<extensions>true</extensions>
 				<configuration>
 					<serverId>nexus</serverId>
 					<nexusUrl>http://localhost:8081/nexus/</nexusUrl>
 				</configuration>
-			</plugin>
+			</plugin> -->
 		</plugins>
 	</build>
 
