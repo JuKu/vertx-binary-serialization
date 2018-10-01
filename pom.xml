@@ -206,18 +206,6 @@
 					<check />
 				</configuration>
 			</plugin>
-
-			<!-- deploy to sonatype repository -->
-			<!-- <plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.8</version>
-				<extensions>true</extensions>
-				<configuration>
-					<serverId>nexus</serverId>
-					<nexusUrl>http://localhost:8081/nexus/</nexusUrl>
-				</configuration>
-			</plugin> -->
 		</plugins>
 	</build>
 
