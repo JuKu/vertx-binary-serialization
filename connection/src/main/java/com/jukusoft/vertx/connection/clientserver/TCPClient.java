@@ -215,6 +215,8 @@ public class TCPClient implements Client {
             }
 
             handler.handle(msg, this.conn);
+        } catch (RuntimeException e) {
+            throw e;
         } catch (Exception e) {
             e.printStackTrace();
         }
