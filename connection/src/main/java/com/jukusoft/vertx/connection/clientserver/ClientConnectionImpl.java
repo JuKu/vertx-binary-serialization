@@ -13,9 +13,9 @@ import java.util.Objects;
 
 public class ClientConnectionImpl implements RemoteConnection {
 
-    protected final NetSocket socket;
-    protected final BufferStream bufferStream;
-    protected final Server server;
+    protected NetSocket socket = null;
+    protected BufferStream bufferStream = null;
+    protected Server server = null;
 
     //channel attributes, like login state and so on
     protected ObjectObjectMap<String,Object> attributes = new ObjectObjectHashMap<>();
@@ -29,6 +29,10 @@ public class ClientConnectionImpl implements RemoteConnection {
         this.socket = socket;
         this.bufferStream = bufferStream;
         this.server = server;
+    }
+
+    protected ClientConnectionImpl () {
+        //only for testing purposes
     }
 
     @Override
@@ -109,6 +113,10 @@ public class ClientConnectionImpl implements RemoteConnection {
 
     public int getPort () {
         return socket.remoteAddress().port();
+    }
+
+    public void setRawHandler (MessageHandler<Buffer,RemoteConnection> rawHandler) {
+        this.rawHandler = rawHandler;
     }
 
 }

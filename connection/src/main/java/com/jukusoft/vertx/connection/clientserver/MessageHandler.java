@@ -1,5 +1,6 @@
 package com.jukusoft.vertx.connection.clientserver;
 
+@FunctionalInterface
 public interface MessageHandler<T,K extends RemoteConnection> {
 
     /**
