@@ -14,6 +14,31 @@
 		<module>connection</module>
 	</modules>
 
+	<name>Vertx Binary Serializer</name>
+	<description>A simple binary serialization method for vertx which uses annotations and reflection like spring jpa / hibernate for databases. </description>
+	<url>https://github.com/JuKu/vertx-binary-serialization</url>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/JuKu/vertx-binary-serialization</url>
+	</scm>
+
+	<developers>
+		<developer>
+			<name>Justin Kuenzel</name>
+			<email>info@jukusoft.com</email>
+			<organization>none</organization>
+			<organizationUrl>http://jukusoft.com</organizationUrl>
+		</developer>
+	</developers>
+
 	<properties>
 		<vertx.version>3.5.3</vertx.version>
 		<junit.version>4.12</junit.version>
@@ -137,6 +162,18 @@
 						<format>xml</format>
 					</formats>
 					<check />
+				</configuration>
+			</plugin>
+
+			<!-- deploy to sonatype repository -->
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.8</version><!-- 1.6.6 -->
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>nexus</serverId>
+					<nexusUrl>http://localhost:8081/nexus/</nexusUrl>
 				</configuration>
 			</plugin>
 		</plugins>
