@@ -126,6 +126,9 @@ public class SerializerTest {
         long timeDiff = endTime - startTime;
         System.out.println("[Benchmark] time needed for serialization & unserialization of one object: " + timeDiff + "ms");
 
+        //test serializing buffers (because of large memory allocation we do this seperately)
+        Serializer.serialize(new TestObjectWithBuffer());
+
         assertEquals(obj.getClass(), obj1.getClass());
     }
 

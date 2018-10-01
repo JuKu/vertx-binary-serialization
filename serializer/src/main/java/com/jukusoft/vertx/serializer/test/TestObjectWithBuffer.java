@@ -6,7 +6,7 @@ import io.vertx.core.buffer.Buffer;
 
 @MessageType(type = 0x01, extendedType = 0x01)
 @ProtocolVersion(1)
-public class TestObject implements SerializableObject {
+public class TestObjectWithBuffer implements SerializableObject {
 
     @SInteger
     public int test = 10;
@@ -32,13 +32,16 @@ public class TestObject implements SerializableObject {
     @SLong
     public long longValue = 40;
 
+    @SBuffer
+    public Buffer buffer = Buffer.buffer();
+
     @SFloat
     public float floatValue = 1.20f;
 
     @SDouble
     public double doubleValue = 3.0d;
 
-    public TestObject () {
+    public TestObjectWithBuffer() {
         //
     }
 

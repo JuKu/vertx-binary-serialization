@@ -101,4 +101,11 @@ public class TCPServerTest {
         server.shutdown();
     }
 
+    @Test (expected = IllegalStateException.class)
+    public void testSetThreadPoolSizeWithAlreadyInitializedServer () {
+        Server server = new TCPServer();
+        server.init(vertx);
+        server.setThreadPoolSize(2, 2);
+    }
+
 }
