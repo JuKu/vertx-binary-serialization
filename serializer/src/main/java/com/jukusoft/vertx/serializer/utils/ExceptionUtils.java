@@ -9,10 +9,18 @@ public class ExceptionUtils {
     public static final void executeWithoutIllegalAccessException (RunnableWithException runnable) {
         try {
             runnable.run();
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         } catch (RuntimeException e) {
             throw e;
+        }
+    }
+
+    public static final void executeAndLogException (RunnableWithException runnable) {
+        try {
+            runnable.run();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

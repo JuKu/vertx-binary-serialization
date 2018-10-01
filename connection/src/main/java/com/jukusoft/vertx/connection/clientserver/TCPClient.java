@@ -42,8 +42,8 @@ public class TCPClient implements Client {
 
     protected AtomicBoolean initialized = new AtomicBoolean(false);
 
-    protected int eventThreads = 2;
-    protected int workerThreads = 2;
+    protected int eventThreads = 1;
+    protected int workerThreads = 1;
 
     protected RemoteConnection conn = null;
     protected NetSocket socket = null;

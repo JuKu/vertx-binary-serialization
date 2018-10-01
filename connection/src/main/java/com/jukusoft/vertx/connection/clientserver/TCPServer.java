@@ -19,11 +19,6 @@ public class TCPServer implements Server {
     protected NetServerOptions options = new NetServerOptions();
 
     //options
-    protected int sendDelay = 0;
-    protected int receiveDelay = 0;
-    protected int connectTimeout = 500;
-    protected int reconnectAttempts = 3;
-    protected int reconnectInterval = 500;
     protected int eventThreads = 2;
     protected int workerThreads = 2;
     protected boolean logsEnabled = true;

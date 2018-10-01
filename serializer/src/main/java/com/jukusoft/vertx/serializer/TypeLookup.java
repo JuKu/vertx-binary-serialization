@@ -4,6 +4,7 @@ import com.carrotsearch.hppc.IntObjectHashMap;
 import com.carrotsearch.hppc.IntObjectMap;
 import com.jukusoft.vertx.serializer.annotations.MessageType;
 import com.jukusoft.vertx.serializer.utils.ByteUtils;
+import com.jukusoft.vertx.serializer.utils.ExceptionUtils;
 
 public class TypeLookup {
 
@@ -15,6 +16,13 @@ public class TypeLookup {
 
     public static void register (byte type, byte extendedType, Class<? extends SerializableObject> cls) {
         int key = ByteUtils.twoBytesToInt(type, extendedType);
+
+        //OPTIMIZATION: warm up jvm --> serialize 3 times, so JVM C2 compiler will assembles Java bytecode to assembler directly
+        ExceptionUtils.executeAndLogException(() -> {
+            Serializer.serialize(cls.newInstance());
+            Serializer.serialize(cls.newInstance());
+            Serializer.serialize(cls.newInstance());
+        });
 
         map.put(key, cls);
     }

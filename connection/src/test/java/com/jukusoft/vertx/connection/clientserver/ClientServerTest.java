@@ -1,6 +1,7 @@
 package com.jukusoft.vertx.connection.clientserver;
 
 import com.jukusoft.vertx.serializer.TypeLookup;
+import com.jukusoft.vertx.serializer.test.TestObject;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
@@ -51,12 +52,12 @@ public class ClientServerTest {
         server.setClientHandler(conn -> {
             newClientHandlerCalled.set(true);
         });
-        server.init(vertx);
+        server.init();
         server.start(5123, event -> a.set(true));
 
         //create and start new tcp client
         Client client = new TCPClient();
-        client.init(vertx);
+        client.init();
 
         //connect to server
         client.connect(new ServerData("127.0.0.1", 5123), event -> b.set(true));
@@ -70,6 +71,55 @@ public class ClientServerTest {
         server.shutdown();
 
         assertEquals(true, newClientHandlerCalled.get());
+    }
+
+    @Test (timeout = 30000)
+    public void testClientServerSendMessage () throws InterruptedException {
+        AtomicBoolean a = new AtomicBoolean(false);
+        AtomicBoolean b = new AtomicBoolean(false);
+        AtomicBoolean newClientHandlerCalled = new AtomicBoolean(false);
+
+        //create and start new tcp server
+        Server server = new TCPServer();
+        server.setClientHandler(conn -> {
+            newClientHandlerCalled.set(true);
+        });
+        server.init();
+        server.start(5123, event -> a.set(true));
+
+        //create and start new tcp client
+        Client client = new TCPClient();
+        client.init();
+
+        //connect to server
+        client.connect(new ServerData("127.0.0.1", 5123), event -> b.set(true));
+
+        while (!a.get() || !b.get()) {
+            System.out.println("a: " + a.get() + ", b: " + b.get());
+            Thread.currentThread().sleep(5);
+        }
+
+        assertEquals(true, newClientHandlerCalled.get());
+
+        TypeLookup.register(TestObject.class);
+
+        long startTime = System.currentTimeMillis();
+
+        //send message from client to server
+        client.send(new TestObject());
+
+        long endTime = System.currentTimeMillis();
+        long diffTime = endTime - startTime;
+
+        System.err.println("[Benchmark] time required for sending TestObject: " + diffTime + "ms");
+
+        //send message 10 times
+        for (int i = 0; i < 10; i++) {
+            //
+        }
+
+        client.shutdown();
+        server.shutdown();
     }
 
 }
