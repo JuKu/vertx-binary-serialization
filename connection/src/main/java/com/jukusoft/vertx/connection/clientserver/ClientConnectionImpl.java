@@ -115,14 +115,17 @@ public class ClientConnectionImpl implements RemoteConnection {
         return socket.remoteAddress().port();
     }
 
+    @Override
     public void setRawHandler (MessageHandler<Buffer,RemoteConnection> rawHandler) {
         this.rawHandler = rawHandler;
     }
 
+    @Override
     public void setCloseHandler (Handler<RemoteConnection> closeHandler) {
         this.closeHandler = closeHandler;
     }
 
+    @Override
     public void setMessageHandler (MessageHandler<SerializableObject,RemoteConnection> handler) {
         this.handler = handler;
     }

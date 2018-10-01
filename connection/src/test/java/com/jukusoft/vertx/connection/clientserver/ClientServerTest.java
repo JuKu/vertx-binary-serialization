@@ -1,5 +1,6 @@
 package com.jukusoft.vertx.connection.clientserver;
 
+import com.jukusoft.vertx.serializer.SerializableObject;
 import com.jukusoft.vertx.serializer.TypeLookup;
 import com.jukusoft.vertx.serializer.test.TestObject;
 import io.vertx.core.AsyncResult;
@@ -11,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static org.junit.Assert.assertEquals;
 
@@ -78,11 +80,19 @@ public class ClientServerTest {
         AtomicBoolean a = new AtomicBoolean(false);
         AtomicBoolean b = new AtomicBoolean(false);
         AtomicBoolean newClientHandlerCalled = new AtomicBoolean(false);
+        AtomicBoolean messageHandlerWasCalled = new AtomicBoolean(false);
+
+        AtomicLong messageReceivedTimestamp = new AtomicLong(0);
 
         //create and start new tcp server
         Server server = new TCPServer();
         server.setClientHandler(conn -> {
             newClientHandlerCalled.set(true);
+
+            conn.setMessageHandler((msg, conn1) -> {
+                messageHandlerWasCalled.set(true);
+                messageReceivedTimestamp.set(System.currentTimeMillis());
+            });
         });
         server.init();
         server.start(5123, event -> a.set(true));
@@ -113,10 +123,26 @@ public class ClientServerTest {
 
         System.err.println("[Benchmark] time required for sending TestObject: " + diffTime + "ms");
 
+        Thread.currentThread().sleep(200);
+
+        diffTime = messageReceivedTimestamp.get() - startTime;
+        System.err.println("[Benchmark] receiving one TestObject message takes " + diffTime + "ms");
+
+        //check, if client received message
+        assertEquals(true, messageHandlerWasCalled.get());
+
+        startTime = System.currentTimeMillis();
+
         //send message 10 times
         for (int i = 0; i < 10; i++) {
-            //
+            //send message from client to server
+            client.send(new TestObject());
         }
+
+        endTime = System.currentTimeMillis();
+        diffTime = endTime - startTime;
+
+        System.err.println("[Benchmark] time required for sending TestObject 10 times: " + diffTime + "ms");
 
         client.shutdown();
         server.shutdown();

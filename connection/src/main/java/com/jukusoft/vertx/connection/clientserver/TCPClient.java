@@ -166,6 +166,21 @@ public class TCPClient implements Client {
             public void disconnect() {
                 TCPClient.this.disconnect();
             }
+
+            @Override
+            public void setRawHandler(MessageHandler<Buffer, RemoteConnection> rawHandler) {
+                throw new UnsupportedOperationException("setRawHandler() isnt supported for client, use TCPClient class directly!");
+            }
+
+            @Override
+            public void setCloseHandler(Handler<RemoteConnection> closeHandler) {
+                throw new UnsupportedOperationException("setCloseHandler() isnt supported for client, use TCPClient class directly!");
+            }
+
+            @Override
+            public void setMessageHandler(MessageHandler<SerializableObject, RemoteConnection> handler) {
+                throw new UnsupportedOperationException("setMessageHandler() isnt supported for client, use TCPClient class directly!");
+            }
         };
     }
 
