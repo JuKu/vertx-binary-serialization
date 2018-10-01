@@ -102,9 +102,6 @@ public class TCPServer implements Server {
                 //pause reading data
                 bufferStream.pause();
 
-                final String ip = socket.remoteAddress().host();
-                final int clientPort = socket.remoteAddress().port();
-
                 //TODO: check ip blacklist / firewall
 
                 final ClientConnectionImpl conn = new ClientConnectionImpl(socket, bufferStream, this);

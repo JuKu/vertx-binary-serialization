@@ -98,4 +98,12 @@ public class ClientConnectionImpl implements RemoteConnection {
         this.socket.close();
     }
 
+    public String getIP () {
+        return socket.remoteAddress().host();
+    }
+
+    public int getPort () {
+        return socket.remoteAddress().port();
+    }
+
 }
