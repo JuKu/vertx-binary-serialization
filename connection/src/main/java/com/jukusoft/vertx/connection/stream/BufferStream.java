@@ -42,6 +42,11 @@ public class BufferStream implements ReadStream<Buffer>, WriteStream<Buffer> {
         });
     }
 
+    protected BufferStream () {
+        this.recordParser = null;
+        this.writeStream = null;
+    }
+
     @Override
     public BufferStream exceptionHandler(Handler<Throwable> handler) {
         exceptionHandler = handler;
@@ -134,6 +139,10 @@ public class BufferStream implements ReadStream<Buffer>, WriteStream<Buffer> {
     public BufferStream endHandler(Handler<Void> endHandler) {
         recordParser.endHandler(endHandler);
         return this;
+    }
+
+    public static BufferStream createJUnitTestBufferStream () {
+        return new BufferStream();
     }
 
 }
