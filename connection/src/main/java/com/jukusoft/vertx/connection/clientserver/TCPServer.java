@@ -1,10 +1,7 @@
 package com.jukusoft.vertx.connection.clientserver;
 
 import com.jukusoft.vertx.connection.stream.BufferStream;
-import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
-import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
+import io.vertx.core.*;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetServer;
 import io.vertx.core.net.NetServerOptions;
@@ -104,6 +101,8 @@ public class TCPServer implements Server {
 
             servers.add(server);
         }
+
+        listenHandler.handle(Future.succeededFuture(this));
     }
 
     protected void connectHandler (NetSocket socket) {
