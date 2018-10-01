@@ -1,6 +1,9 @@
 package com.jukusoft.vertx.connection.clientserver;
 
 import com.jukusoft.vertx.connection.stream.BufferStream;
+import com.jukusoft.vertx.serializer.SerializableObject;
+import com.jukusoft.vertx.serializer.Serializer;
+import com.jukusoft.vertx.serializer.TypeLookup;
 import com.jukusoft.vertx.serializer.test.TestObject;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
@@ -63,6 +66,50 @@ public class ClientConnectionImplTest {
 
         assertEquals("127.0.0.1", conn.getIP());
         assertEquals(51, conn.getPort());
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testHandleNullMessage () throws Exception {
+        ClientConnectionImpl conn = new ClientConnectionImpl();
+        conn.socket = createNetSocket();
+
+        conn.handleMessage(null);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testHandleEmptyMessage () throws Exception {
+        ClientConnectionImpl conn = new ClientConnectionImpl();
+        conn.socket = createNetSocket();
+
+        conn.handleMessage(Buffer.buffer());
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testHandleMessageWithoutRegisteredHandler () throws Exception {
+        ClientConnectionImpl conn = new ClientConnectionImpl();
+        conn.socket = createNetSocket();
+
+        conn.handleMessage(Buffer.buffer().appendFloat(1f));
+    }
+
+    @Test
+    public void testHandleMessage () throws Exception {
+        ClientConnectionImpl conn = new ClientConnectionImpl();
+        conn.socket = createNetSocket();
+
+        AtomicBoolean b = new AtomicBoolean(false);
+
+        conn.setMessageHandler((msg, conn1) -> {
+            b.set(true);
+        });
+
+        TypeLookup.register(TestObject.class);
+        conn.handleMessage(Serializer.serialize(new TestObject()));
+
+        //check, if handler was called
+        assertEquals(true, b.get());
+
+        TypeLookup.removeAll();
     }
 
     @Test

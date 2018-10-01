@@ -123,4 +123,8 @@ public class ClientConnectionImpl implements RemoteConnection {
         this.closeHandler = closeHandler;
     }
 
+    public void setMessageHandler (MessageHandler<SerializableObject,RemoteConnection> handler) {
+        this.handler = handler;
+    }
+
 }
