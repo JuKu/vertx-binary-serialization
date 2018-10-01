@@ -240,6 +240,11 @@ public class TCPClient implements Client {
         //serialize message object
         Buffer content = Serializer.serialize(msg);
 
+        this.sendRaw(content);
+    }
+
+    @Override
+    public void sendRaw(Buffer content) {
         if (this.bufferStream == null) {
             throw new IllegalStateException("no connection is established.");
         }

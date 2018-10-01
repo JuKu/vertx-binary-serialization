@@ -4,6 +4,7 @@ import com.jukusoft.vertx.serializer.SerializableObject;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 
 import java.util.List;
 
@@ -36,6 +37,8 @@ public interface Client {
     public HandlerManager handlers ();
 
     public void send (SerializableObject msg);
+
+    public void sendRaw (Buffer msg);
 
     public void setThreadPoolSize (int eventThreads, int workerThreads);
 
