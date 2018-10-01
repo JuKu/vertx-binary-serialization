@@ -5,6 +5,7 @@ import com.carrotsearch.hppc.ObjectObjectMap;
 import com.jukusoft.vertx.connection.stream.BufferStream;
 import com.jukusoft.vertx.serializer.SerializableObject;
 import com.jukusoft.vertx.serializer.Serializer;
+import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetSocket;
 
@@ -21,6 +22,8 @@ public class ClientConnectionImpl implements RemoteConnection {
 
     protected MessageHandler<SerializableObject,RemoteConnection> handler = null;
     protected MessageHandler<Buffer,RemoteConnection> rawHandler = null;
+
+    protected Handler<RemoteConnection> closeHandler = null;
 
     public ClientConnectionImpl (NetSocket socket, BufferStream bufferStream, Server server) {
         this.socket = socket;
@@ -93,7 +96,9 @@ public class ClientConnectionImpl implements RemoteConnection {
     }
 
     protected void handleClose () {
-        //TODO: call listeners
+        if (this.closeHandler != null) {
+            this.closeHandler.handle(this);
+        }
 
         this.socket.close();
     }
