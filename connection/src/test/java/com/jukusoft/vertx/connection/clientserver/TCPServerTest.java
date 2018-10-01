@@ -140,4 +140,10 @@ public class TCPServerTest {
         assertNotNull(((TCPServer) server).customHandler);
     }
 
+    @Test
+    public void testShutdown () {
+        Server server = new TCPServer();
+        server.shutdown();
+    }
+
 }
