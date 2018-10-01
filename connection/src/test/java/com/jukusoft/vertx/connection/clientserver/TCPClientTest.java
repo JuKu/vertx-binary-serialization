@@ -350,6 +350,33 @@ public class TCPClientTest {
         assertEquals(true, b.get());
     }
 
+    @Test (expected = UnsupportedOperationException.class)
+    public void testCreateRemoteConnection4 () {
+        Client client = new TCPClient();
+        client.init(vertx);
+
+        ((TCPClient) client).createRemoteConnection();
+        ((TCPClient) client).conn.setRawHandler(null);
+    }
+
+    @Test (expected = UnsupportedOperationException.class)
+    public void testCreateRemoteConnection5 () {
+        Client client = new TCPClient();
+        client.init(vertx);
+
+        ((TCPClient) client).createRemoteConnection();
+        ((TCPClient) client).conn.setCloseHandler(null);
+    }
+
+    @Test (expected = UnsupportedOperationException.class)
+    public void testCreateRemoteConnection6 () {
+        Client client = new TCPClient();
+        client.init(vertx);
+
+        ((TCPClient) client).createRemoteConnection();
+        ((TCPClient) client).conn.setMessageHandler(null);
+    }
+
     @Test
     public void testConnectHandlerFailed () {
         TCPClient client = new TCPClient();
