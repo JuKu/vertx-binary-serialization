@@ -17,7 +17,7 @@ public class ByteUtils {
      *
      * @param bytes array of bytes to convert
      *
-     * @author https://stackoverflow.com/questions/9655181/how-to-convert-a-byte-array-to-a-hex-string-in-java?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+     * @see <a href="https://stackoverflow.com/questions/9655181/how-to-convert-a-byte-array-to-a-hex-string-in-java?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa">Stackoverflow</a>
      *
      * @return hex string
      */
