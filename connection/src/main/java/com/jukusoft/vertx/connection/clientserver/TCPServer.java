@@ -117,17 +117,7 @@ public class TCPServer implements Server {
 
         final ClientConnectionImpl conn = new ClientConnectionImpl(socket, bufferStream, this);
 
-        bufferStream.handler(buffer -> {
-            try {
-                if (customHandler == null) {
-                    conn.handleMessage(buffer);
-                } else {
-                    customHandler.handle(buffer, conn);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        bufferStream.handler(buffer -> this.messageReceived(buffer, conn));
 
         bufferStream.endHandler(v -> conn.handleClose());
 
@@ -136,6 +126,18 @@ public class TCPServer implements Server {
 
         //resume reading data
         bufferStream.resume();
+    }
+
+    protected void messageReceived (Buffer buffer, ClientConnectionImpl conn) {
+        try {
+            if (customHandler == null) {
+                conn.handleMessage(buffer);
+            } else {
+                customHandler.handle(buffer, conn);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -152,7 +152,7 @@ public class TCPServerTest {
         server.setClientHandler(conn -> {
             //do something
         });
-        
+
         server.init(vertx);
 
         NetSocket netSocket = new NetSocket() {
