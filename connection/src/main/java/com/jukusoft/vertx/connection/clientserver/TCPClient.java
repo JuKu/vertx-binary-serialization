@@ -203,19 +203,18 @@ public class TCPClient implements Client {
     }
 
     protected void handleMessage (Buffer buf) {
-        //first, unserialize object
-        SerializableObject msg = Serializer.unserialize(buf);
-
-        //get handler
-        MessageHandler handler = this.handlers().findHandler(msg.getClass());
-
-        if (handler == null) {
-            throw new NoHandlerException("No handler registered for message class '" + msg.getClass().getCanonicalName() + "'!");
-        }
-
         try {
+            //first, unserialize object
+            SerializableObject msg = Serializer.unserialize(buf);
+
+            //get handler
+            MessageHandler handler = this.handlers().findHandler(msg.getClass());
+
+            if (handler == null) {
+                throw new NoHandlerException("No handler registered for message class '" + msg.getClass().getCanonicalName() + "'!");
+            }
+
             handler.handle(msg, this.conn);
-            System.err.println("DEBUG: handleMessage() executed, handler: " + handler.getClass().getCanonicalName());
         } catch (Exception e) {
             e.printStackTrace();
         }

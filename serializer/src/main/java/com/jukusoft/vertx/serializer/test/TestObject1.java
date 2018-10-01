@@ -3,7 +3,7 @@ package com.jukusoft.vertx.serializer.test;
 import com.jukusoft.vertx.serializer.SerializableObject;
 import com.jukusoft.vertx.serializer.annotations.*;
 
-@MessageType(type = 0x02)
+@MessageType(type = 0x02, extendedType = 0x01)
 @ProtocolVersion(1)
 public class TestObject1 implements SerializableObject {
 

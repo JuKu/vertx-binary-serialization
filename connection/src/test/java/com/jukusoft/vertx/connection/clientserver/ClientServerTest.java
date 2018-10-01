@@ -1,6 +1,7 @@
 package com.jukusoft.vertx.connection.clientserver;
 
 import com.jukusoft.vertx.serializer.SerializableObject;
+import com.jukusoft.vertx.serializer.Serializer;
 import com.jukusoft.vertx.serializer.TypeLookup;
 import com.jukusoft.vertx.serializer.test.TestObject;
 import com.jukusoft.vertx.serializer.test.TestObject1;
@@ -67,6 +68,9 @@ public class ClientServerTest {
 
         AtomicLong messageReceivedTimestamp = new AtomicLong(0);
 
+        TypeLookup.register(TestObject.class);
+        TypeLookup.register(TestObject1.class);
+
         //create and start new tcp server
         Server server = new TCPServer();
         server.setClientHandler(conn -> {
@@ -79,6 +83,7 @@ public class ClientServerTest {
                 messageReceivedTimestamp.set(System.currentTimeMillis());
             });
 
+            System.err.println("server sends message to client.");
             conn.send(new TestObject1());
         });
         server.init();
@@ -97,15 +102,14 @@ public class ClientServerTest {
         //connect to server
         client.connect(new ServerData("127.0.0.1", 5123), event -> b.set(true));
 
+        Thread.currentThread().sleep(200);
+
         while (!a.get() || !b.get()) {
             System.out.println("a: " + a.get() + ", b: " + b.get());
             Thread.currentThread().sleep(5);
         }
 
         assertEquals(true, newClientHandlerCalled.get());
-
-        TypeLookup.register(TestObject.class);
-        TypeLookup.register(TestObject1.class);
 
         long startTime = System.currentTimeMillis();
 
@@ -142,6 +146,14 @@ public class ClientServerTest {
 
         client.shutdown();
         server.shutdown();
+    }
+
+    @Test
+    public void testUnserialize () {
+        TypeLookup.register(TestObject1.class);
+        Serializer.unserialize(Serializer.serialize(new TestObject1()));
+
+        TypeLookup.removeAll();
     }
 
 }
