@@ -103,6 +103,7 @@ All primitive datatypes in Java are supported:
   - double (`@SDouble`)
   - boolean (`@SBoolean`)
   - char (`@SChar`)
+  - Vertx. Buffer (`@SBuffer`)
   - byte array (max 4.294.967.296 bytes in an array, `@SBytes`)
   
 **Complex datatypes** (objects) are **not** supported!
