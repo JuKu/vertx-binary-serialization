@@ -7,6 +7,7 @@ import com.jukusoft.vertx.serializer.TypeLookup;
 import com.jukusoft.vertx.serializer.exceptions.NetworkException;
 import com.jukusoft.vertx.serializer.test.TestObject;
 import io.vertx.core.*;
+import io.vertx.core.buffer.Buffer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -164,6 +165,9 @@ public class TCPClientTest {
 
         //send with RemoteConnection instance
         ((TCPClient) client).conn.send(new TestObject());
+
+        //send raw buffer
+        ((TCPClient) client).conn.sendRaw(Buffer.buffer());
 
         //receive message with delay
         ((TCPClient) client).handleMessageWithDelay(Serializer.serialize(new TestObject()));
