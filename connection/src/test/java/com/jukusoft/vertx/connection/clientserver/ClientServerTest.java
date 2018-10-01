@@ -35,6 +35,8 @@ public class ClientServerTest {
         server.init();
         server.start(5123, event -> a.set(true));
 
+        Thread.currentThread().sleep(200);
+
         //create and start new tcp client
         Client client = new TCPClient();
         client.init();
@@ -81,6 +83,8 @@ public class ClientServerTest {
         });
         server.init();
         server.start(5123, event -> a.set(true));
+
+        Thread.currentThread().sleep(200);
 
         //create and start new tcp client
         Client client = new TCPClient();
