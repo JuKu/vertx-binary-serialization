@@ -143,6 +143,7 @@ public class TCPServerTest {
     @Test
     public void testShutdown () {
         Server server = new TCPServer();
+        ((TCPServer) server).vertx = null;
         server.shutdown();
     }
 
