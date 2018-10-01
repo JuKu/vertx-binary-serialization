@@ -164,6 +164,11 @@ public class TCPServer implements Server {
     }
 
     @Override
+    public void setServersCount(int nOfServerThreads) {
+        this.nOfNetServerThreads = nOfServerThreads;
+    }
+
+    @Override
     public void shutdown() {
         for (NetServer server : servers) {
             //shutdown tcp server

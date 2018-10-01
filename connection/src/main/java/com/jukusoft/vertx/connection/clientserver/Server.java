@@ -27,6 +27,8 @@ public interface Server {
     */
     public void setClientHandler (Handler<RemoteConnection> clientHandler);
 
+    public void setServersCount (int nOfServerThreads);
+
     public void shutdown ();
 
 }
