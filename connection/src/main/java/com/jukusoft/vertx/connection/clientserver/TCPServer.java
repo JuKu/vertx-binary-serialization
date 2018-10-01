@@ -8,6 +8,7 @@ import io.vertx.core.VertxOptions;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetServer;
 import io.vertx.core.net.NetServerOptions;
+import io.vertx.core.net.NetSocket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,43 +96,46 @@ public class TCPServer implements Server {
             //create new tcp server
             NetServer server = this.vertx.createNetServer(options);
 
-            server.connectHandler(socket -> {
-                //create buffer stream
-                BufferStream bufferStream = new BufferStream(socket, socket);
-
-                //pause reading data
-                bufferStream.pause();
-
-                //TODO: check ip blacklist / firewall
-
-                final ClientConnectionImpl conn = new ClientConnectionImpl(socket, bufferStream, this);
-
-                bufferStream.handler(buffer -> {
-                    try {
-                        if (customHandler == null) {
-                            conn.handleMessage(buffer);
-                        } else {
-                            customHandler.handle(buffer, conn);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-
-                bufferStream.endHandler(v -> conn.handleClose());
-
-                //call client handler
-                this.clientHandler.handle(conn);
-
-                //resume reading data
-                bufferStream.resume();
-            });
+            //set connect handler
+            server.connectHandler(this::connectHandler);
 
             //start server
             server.listen(port, host);
 
             servers.add(server);
         }
+    }
+
+    protected void connectHandler (NetSocket socket) {
+        //create buffer stream
+        BufferStream bufferStream = new BufferStream(socket, socket);
+
+        //pause reading data
+        bufferStream.pause();
+
+        //TODO: check ip blacklist / firewall
+
+        final ClientConnectionImpl conn = new ClientConnectionImpl(socket, bufferStream, this);
+
+        bufferStream.handler(buffer -> {
+            try {
+                if (customHandler == null) {
+                    conn.handleMessage(buffer);
+                } else {
+                    customHandler.handle(buffer, conn);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        bufferStream.endHandler(v -> conn.handleClose());
+
+        //call client handler
+        this.clientHandler.handle(conn);
+
+        //resume reading data
+        bufferStream.resume();
     }
 
     @Override
