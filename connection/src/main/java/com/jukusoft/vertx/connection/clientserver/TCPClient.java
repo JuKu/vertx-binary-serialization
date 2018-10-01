@@ -14,7 +14,6 @@ import io.vertx.core.net.NetClient;
 import io.vertx.core.net.NetClientOptions;
 import io.vertx.core.net.NetSocket;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -141,6 +140,11 @@ public class TCPClient implements Client {
             @Override
             public void send(SerializableObject msg) {
                 TCPClient.this.send(msg);
+            }
+
+            @Override
+            public void sendRaw(Buffer content) {
+                TCPClient.this.sendRaw(content);
             }
 
             @Override
