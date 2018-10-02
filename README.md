@@ -66,6 +66,10 @@ You have to add the annotations `MessageType` with the type (1 byte as type, 1 b
 
 Then you can serialize and unserialize this object easely:
 ```java
+//first, register this new message types
+TypeLookup.register(Message.class);
+TypeLookup.register(SecondMessage.class);
+
 //create message object which implements SerializableObject
 Message msg = new Message();
 msg.test = 20;
