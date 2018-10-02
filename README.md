@@ -21,6 +21,8 @@ A simple binary serialization method for vertx which uses annotations &amp; refl
   
 ## Maven Coordinates
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.jukusoft/vertx-binary-serializer.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.jukusoft%22%20AND%20a:%22vertx-binary-serializer%22)
+
 ```xml
 <dependency>
   <groupId>com.jukusoft</groupId>
