@@ -136,3 +136,8 @@ All primitive datatypes in Java are supported:
 ```bash
 clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.host.url=https://sonarcloud.io -Dsonar.organization=jukusoft -Dsonar.login=<Sonar-Token>
 ```
+
+## Support
+
+If you have questions, found a bug or have a feature request:\
+Please **open an [issue](https://github.com/JuKu/vertx-binary-serialization/issues)**! I try to answer as fast as possible.
