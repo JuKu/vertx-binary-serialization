@@ -19,6 +19,23 @@ A simple binary serialization method for vertx which uses annotations &amp; refl
   - Java 8+
   - [vert.x](http://vertx.io)
   
+## Maven Coordinates
+
+```xml
+<dependency>
+  <groupId>com.jukusoft</groupId>
+  <artifactId>vertx-binary-serializer</artifactId>
+  <version>1.0.0</version>
+</dependency>
+
+<!-- If you want to use TCPServer and TCPClient, you need also this dependency -->
+<dependency>
+  <groupId>com.jukusoft</groupId>
+  <artifactId>vertx-binary-serializer-connection</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+  
 ## HowTo
 
 First create some message objects which contains some datatypes:
