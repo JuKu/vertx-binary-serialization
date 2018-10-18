@@ -53,7 +53,7 @@
 	</distributionManagement>
 
 	<properties>
-		<vertx.version>3.5.3</vertx.version>
+		<vertx.version>3.5.4</vertx.version>
 		<junit.version>4.12</junit.version>
 
 		<mockito.version>2.2.7</mockito.version>
