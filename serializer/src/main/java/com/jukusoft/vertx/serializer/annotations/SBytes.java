@@ -9,10 +9,10 @@ import java.lang.annotation.Target;
 * annotation used to serialize byte arrays
  * for example:
  *
- * <pre>
+ * <pre>{@code
  * @SBytes
  * public byte[] bytes = new byte[0];
- * </pre>
+ * }</pre>
 */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
