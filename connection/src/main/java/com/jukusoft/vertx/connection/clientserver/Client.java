@@ -49,6 +49,8 @@ public interface Client {
 
     public void setThreadPoolSize (int eventThreads, int workerThreads);
 
+    public void setOnConnectionClosedHandler (Runnable runnable);
+
     public void shutdown ();
 
 }

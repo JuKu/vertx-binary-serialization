@@ -51,6 +51,8 @@ public class TCPClient implements Client {
     //channel attributes, like login state and so on
     protected ObjectObjectMap<String,Object> attributes = new ObjectObjectHashMap<>();
 
+    protected Runnable onConnClosedHandler = null;
+
     @Override
     public void init() {
         //set thread count
@@ -331,6 +333,11 @@ public class TCPClient implements Client {
     }
 
     @Override
+    public void setOnConnectionClosedHandler(Runnable runnable) {
+        this.onConnClosedHandler = runnable;
+    }
+
+    @Override
     public void shutdown() {
         if (!this.initialized.get() || this.vertx == null) {
             return;
@@ -342,6 +349,10 @@ public class TCPClient implements Client {
 
     protected void onConnectionClosed(Void v) {
         //TODO: call handlers
+
+        if (this.onConnClosedHandler != null) {
+            this.onConnClosedHandler.run();
+        }
     }
 
     public NetClient getVertxClient () {
