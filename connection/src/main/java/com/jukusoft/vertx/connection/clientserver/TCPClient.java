@@ -338,6 +338,16 @@ public class TCPClient implements Client {
     }
 
     @Override
+    public long setTimer(long delay, Handler<Long> handler) {
+        return this.vertx.setTimer(delay, handler);
+    }
+
+    @Override
+    public long setPeriodic(long delay, Handler<Long> handler) {
+        return this.vertx.setPeriodic(delay, handler);
+    }
+
+    @Override
     public void shutdown() {
         if (!this.initialized.get() || this.vertx == null) {
             return;
