@@ -25,6 +25,9 @@ public interface Client {
     */
     public void connect (List<ServerData> serverList, Handler<AsyncResult<RemoteConnection>> handler);
 
+    /**
+     * close connection, but not vert.x
+     */
     public void disconnect ();
 
     /**
@@ -71,11 +74,6 @@ public interface Client {
      * @return the unique ID of the timer
      */
     public long setPeriodic(long delay, Handler<Long> handler);
-
-    /**
-    * close connection, but not vert.x
-    */
-    public void close ();
 
     /**
     * shutdown vert.x with all thread pools and so on

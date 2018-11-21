@@ -348,13 +348,6 @@ public class TCPClient implements Client {
     }
 
     @Override
-    public void close() {
-        if (this.client != null) {
-            this.client.close();
-        }
-    }
-
-    @Override
     public void shutdown() {
         if (!this.initialized.get() || this.vertx == null) {
             return;
