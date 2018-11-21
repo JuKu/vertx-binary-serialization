@@ -72,6 +72,14 @@ public interface Client {
      */
     public long setPeriodic(long delay, Handler<Long> handler);
 
+    /**
+    * close connection, but not vert.x
+    */
+    public void close ();
+
+    /**
+    * shutdown vert.x with all thread pools and so on
+    */
     public void shutdown ();
 
 }
