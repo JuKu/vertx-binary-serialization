@@ -7,7 +7,7 @@
 	<groupId>com.jukusoft</groupId>
 	<artifactId>vertx-binary-serializer-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.4-SNAPSHOT</version>
+	<version>1.0.4</version>
 	<modules>
 		<module>serializer</module>
 		<module>benchmark</module>
