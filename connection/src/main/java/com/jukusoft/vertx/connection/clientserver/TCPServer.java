@@ -114,7 +114,7 @@ public class TCPServer implements Server {
 
         final ClientConnectionImpl conn = new ClientConnectionImpl(socket, bufferStream, this);
 
-        if (this.customConnectHandler != null) {
+        if (this.customConnectHandler == null) {
             bufferStream.handler(buffer -> this.messageReceived(buffer, conn));
 
             bufferStream.endHandler(v -> conn.handleClose());
