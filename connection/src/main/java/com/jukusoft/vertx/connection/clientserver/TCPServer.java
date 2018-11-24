@@ -39,6 +39,9 @@ public class TCPServer implements Server {
     //instance of vert.x tcp servers
     protected List<NetServer> servers = new ArrayList<>();
 
+    //custom connect handler which will be called, if client connects to server - instead of clientHandler you can register own message handlers here
+    protected CustomClientInitializer customConnectHandler = null;
+
     @Override
     public void init() {
         //set thread count
@@ -111,9 +114,13 @@ public class TCPServer implements Server {
 
         final ClientConnectionImpl conn = new ClientConnectionImpl(socket, bufferStream, this);
 
-        bufferStream.handler(buffer -> this.messageReceived(buffer, conn));
+        if (this.customConnectHandler != null) {
+            bufferStream.handler(buffer -> this.messageReceived(buffer, conn));
 
-        bufferStream.endHandler(v -> conn.handleClose());
+            bufferStream.endHandler(v -> conn.handleClose());
+        } else {
+            this.customConnectHandler.handleConnect(bufferStream, conn);
+        }
 
         //call client handler
         this.clientHandler.handle(conn);
@@ -166,6 +173,11 @@ public class TCPServer implements Server {
     @Override
     public void setServersCount(int nOfServerThreads) {
         this.nOfNetServerThreads = nOfServerThreads;
+    }
+
+    @Override
+    public void setCustomClientInitializer(CustomClientInitializer customConnectHandler) {
+        this.customConnectHandler = customConnectHandler;
     }
 
     @Override

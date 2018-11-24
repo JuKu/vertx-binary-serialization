@@ -29,6 +29,14 @@ public interface Server {
 
     public void setServersCount (int nOfServerThreads);
 
+    /**
+    *  set custom connect handler which will be called, if a new client connects to server.
+     * The difference to setClientHandler() is, that you can register your own message receiver here
+     *
+     * @param customConnectHandler connect handler
+    */
+    public void setCustomClientInitializer (CustomClientInitializer customConnectHandler);
+
     public void shutdown ();
 
 }
