@@ -54,6 +54,8 @@ public interface Client {
 
     public void setOnConnectionClosedHandler (Runnable runnable);
 
+    public void setCustomMessageHandler (MessageHandler<Buffer,RemoteConnection> handler);
+
     /**
      * Set a one-shot timer to fire after {@code delay} milliseconds, at which point {@code handler} will be called with
      * the id of the timer.

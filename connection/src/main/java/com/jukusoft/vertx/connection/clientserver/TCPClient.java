@@ -53,6 +53,9 @@ public class TCPClient implements Client {
 
     protected Runnable onConnClosedHandler = null;
 
+    //handler to override message handler functionality
+    protected MessageHandler<Buffer,RemoteConnection> customMessageHandler = null;
+
     @Override
     public void init() {
         //set thread count
@@ -206,6 +209,13 @@ public class TCPClient implements Client {
 
     protected void handleMessage (Buffer buf) {
         try {
+            if (this.customMessageHandler != null) {
+                // use custom message handler instead of serializer
+                this.customMessageHandler.handle(buf, this.conn);
+
+                return;
+            }
+
             //first, unserialize object
             SerializableObject msg = Serializer.unserialize(buf);
 
@@ -335,6 +345,11 @@ public class TCPClient implements Client {
     @Override
     public void setOnConnectionClosedHandler(Runnable runnable) {
         this.onConnClosedHandler = runnable;
+    }
+
+    @Override
+    public void setCustomMessageHandler(MessageHandler<Buffer, RemoteConnection> handler) {
+        this.customMessageHandler = handler;
     }
 
     @Override

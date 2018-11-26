@@ -460,6 +460,17 @@ public class TCPClientTest {
     }
 
     @Test
+    public void testSetCustomMessageHandler () {
+        Client client = new TCPClient();
+        client.setCustomMessageHandler((msg, conn) -> {
+            // don't do anything here
+        });
+
+        //also null should be allowed, so that you can reset this handler
+        client.setCustomMessageHandler(null);
+    }
+
+    @Test
     public void testDisconnect () {
         Client client = new TCPClient();
         client.init(vertx);
