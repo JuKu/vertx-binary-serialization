@@ -11,6 +11,7 @@ import io.vertx.core.buffer.Buffer;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.mockserver.integration.ClientAndServer;
 
 import java.util.ArrayList;
@@ -466,8 +467,25 @@ public class TCPClientTest {
             // don't do anything here
         });
 
-        //also null should be allowed, so that you can reset this handler
+        // also null should be allowed, so that you can reset this handler
         client.setCustomMessageHandler(null);
+    }
+
+    @Test
+    public void testSetOnConnectionClosedHandler () {
+        // flag, if handler was called
+        AtomicBoolean handlerCalledFlag = new AtomicBoolean(false);
+
+        Client client = new TCPClient();
+        client.setOnConnectionClosedHandler(() -> handlerCalledFlag.set(true));
+
+        // check, that handler wasn't called yet, because we haven't called onConnectionClosed() yet
+        assertEquals(false, handlerCalledFlag.get());
+
+        ((TCPClient) client).onConnectionClosed(null);
+
+        // check, that handler was called
+        assertEquals(true, handlerCalledFlag.get());
     }
 
     @Test
