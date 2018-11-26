@@ -16,6 +16,7 @@ import org.mockserver.integration.ClientAndServer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -486,6 +487,37 @@ public class TCPClientTest {
 
         // check, that handler was called
         assertEquals(true, handlerCalledFlag.get());
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testTimerWithoutInit () {
+        Client client = new TCPClient();
+
+        // set timer to execute handle with delay
+        client.setTimer(200, event -> {
+            // don't do anything here
+        });
+    }
+
+    @Test
+    public void testTimer () throws InterruptedException {
+        // check, that vertx instance was created in beforeClass() method to exclude problems in test class itself
+        Objects.requireNonNull(vertx);
+
+        Client client = new TCPClient();
+        client.init(vertx);
+
+        AtomicBoolean b = new AtomicBoolean(false);
+
+        //set timer to execute handle with delay
+        client.setTimer(200, event -> b.set(true));
+        assertEquals(false, b.get());
+
+        //wait 500ms
+        Thread.sleep(500);
+
+        //handler should be executed now
+        assertEquals(true, b.get());
     }
 
     @Test

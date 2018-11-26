@@ -86,6 +86,7 @@ public class TCPClient implements Client {
         this.client = vertx.createNetClient(options);
 
         this.initialized.set(true);
+        this.vertx = vertx;
     }
 
     @Override
@@ -354,6 +355,11 @@ public class TCPClient implements Client {
 
     @Override
     public long setTimer(long delay, Handler<Long> handler) {
+        if (!this.initialized.get() || this.vertx == null) {
+            throw new IllegalStateException("vertx isn't initialized yet.");
+        }
+
+        Objects.requireNonNull(handler);
         return this.vertx.setTimer(delay, handler);
     }
 
