@@ -81,6 +81,9 @@ public class TCPClient implements Client {
         options.setReconnectAttempts(this.reconnectAttempts);
         options.setReconnectInterval(this.reconnectInterval);
 
+        //set TCP_NODELAY
+        options.setTcpNoDelay(true);
+
         //set logging options
         options.setLogActivity(this.logsEnabled);
         this.client = vertx.createNetClient(options);
