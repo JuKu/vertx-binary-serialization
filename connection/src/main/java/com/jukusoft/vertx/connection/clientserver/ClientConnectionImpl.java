@@ -73,6 +73,16 @@ public class ClientConnectionImpl implements RemoteConnection {
     }
 
     @Override
+    public String remoteHost() {
+        return this.socket.remoteAddress().host();
+    }
+
+    @Override
+    public int remotePort() {
+        return this.socket.remoteAddress().port();
+    }
+
+    @Override
     public void disconnect() {
         this.handleClose();
     }

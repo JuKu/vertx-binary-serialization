@@ -172,6 +172,16 @@ public class TCPClient implements Client {
             }
 
             @Override
+            public String remoteHost() {
+                return null;
+            }
+
+            @Override
+            public int remotePort() {
+                return 0;
+            }
+
+            @Override
             public void disconnect() {
                 TCPClient.this.disconnect();
             }

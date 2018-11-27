@@ -23,6 +23,10 @@ public interface RemoteConnection {
 
     public void putAttribute (String key, Object value);
 
+    public String remoteHost ();
+
+    public int remotePort ();
+
     /**
     * disconnect from remote connection
     */
