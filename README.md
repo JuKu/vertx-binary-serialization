@@ -27,14 +27,14 @@ A simple binary serialization method for vertx which uses annotations &amp; refl
 <dependency>
   <groupId>com.jukusoft</groupId>
   <artifactId>vertx-binary-serializer</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
 </dependency>
 
 <!-- If you want to use TCPServer and TCPClient, you need also this dependency -->
 <dependency>
   <groupId>com.jukusoft</groupId>
   <artifactId>vertx-binary-serializer-connection</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
 </dependency>
 ```
   

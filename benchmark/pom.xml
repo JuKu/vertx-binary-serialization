@@ -5,11 +5,16 @@
 	<parent>
 		<artifactId>vertx-binary-serializer-parent</artifactId>
 		<groupId>com.jukusoft</groupId>
-		<version>1.0.6-SNAPSHOT</version>
+		<version>1.0.7-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>vertx-binary-serializer-benchmark</artifactId>
+
+	<properties>
+		<!-- don't deploy this module to maven central -->
+		<maven.deploy.skip>true</maven.deploy.skip>
+	</properties>
 
 	<dependencies>
 		<dependency>
