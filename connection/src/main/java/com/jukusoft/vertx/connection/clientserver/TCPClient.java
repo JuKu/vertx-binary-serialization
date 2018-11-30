@@ -173,12 +173,12 @@ public class TCPClient implements Client {
 
             @Override
             public String remoteHost() {
-                return null;
+                return TCPClient.this.socket.remoteAddress().host();
             }
 
             @Override
             public int remotePort() {
-                return 0;
+                return TCPClient.this.socket.remoteAddress().port();
             }
 
             @Override
@@ -206,7 +206,9 @@ public class TCPClient implements Client {
     protected void initSocket (BufferStream bufferStream) {
         //set handler
         bufferStream.handler(this::handleMessageWithDelay);
-        bufferStream.endHandler(this::onConnectionClosed);
+        //bufferStream.endHandler(this::onConnectionClosed);
+
+        this.socket.closeHandler(this::onConnectionClosed);
     }
 
     protected void handleMessageWithDelay (Buffer content) {
@@ -288,6 +290,8 @@ public class TCPClient implements Client {
     public void disconnect() {
         if (this.socket != null) {
             this.socket.close();
+        } else {
+            throw new IllegalStateException("Cannot call disconnect() if socket wasn't initialized.");
         }
     }
 

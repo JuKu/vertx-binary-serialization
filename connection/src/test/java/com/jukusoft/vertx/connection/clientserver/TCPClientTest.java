@@ -326,7 +326,8 @@ public class TCPClientTest {
         client.init(vertx);
 
         ((TCPClient) client).createRemoteConnection();
-        ((TCPClient) client).conn.disconnect();
+        //((TCPClient) client).conn.disconnect();
+        client.shutdown();
     }
 
     @Test (expected = IllegalStateException.class)
@@ -520,12 +521,19 @@ public class TCPClientTest {
         assertEquals(true, b.get());
     }
 
-    @Test
-    public void testDisconnect () {
+    @Test (expected = IllegalStateException.class)
+    public void testDisconnectUnconnectedClient () {
         Client client = new TCPClient();
         client.init(vertx);
         client.disconnect();
     }
+
+    /*@Test
+    public void testDisconnect () {
+        Client client = new TCPClient();
+        client.init(vertx);
+        client.disconnect();
+    }*/
 
     @Test
     public void testShutdown () {
