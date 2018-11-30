@@ -88,6 +88,7 @@ public class TCPServer implements Server {
 
         //set TCP_NODELAY
         options.setTcpNoDelay(true);
+        options.setTcpKeepAlive(true);
 
         //Scaling - sharing TCP servers, see https://vertx.io/docs/vertx-core/java/#_scaling_sharing_tcp_servers
         for (int i = 0; i < this.nOfNetServerThreads; i++) {
