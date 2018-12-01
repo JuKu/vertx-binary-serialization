@@ -166,7 +166,10 @@ public class SerializerTest {
         obj.test = 20;
         obj.testStr = "test2";
 
-        TestObject[] objs = new TestObject[1000000];
+        //try to cleanup memory first
+        System.gc();
+
+        TestObject[] objs = new TestObject[100000];//1000000
 
         //register type
         TypeLookup.register(TestObject.class);
@@ -185,7 +188,7 @@ public class SerializerTest {
 
         long endTime = System.currentTimeMillis();
         long timeDiff = endTime - startTime;
-        System.out.println("[Benchmark] time needed for serialization & unserialization of 1.000.000 objects: " + timeDiff + "ms");
+        System.out.println("[Benchmark] time needed for serialization & unserialization of 100.000 objects: " + timeDiff + "ms");
     }
 
     @Test (expected = NoMessageTypeException.class)

@@ -27,14 +27,14 @@ A simple binary serialization method for vertx which uses annotations &amp; refl
 <dependency>
   <groupId>com.jukusoft</groupId>
   <artifactId>vertx-binary-serializer</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
 </dependency>
 
 <!-- If you want to use TCPServer and TCPClient, you need also this dependency -->
 <dependency>
   <groupId>com.jukusoft</groupId>
   <artifactId>vertx-binary-serializer-connection</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
 </dependency>
 ```
   
@@ -128,6 +128,7 @@ All primitive datatypes in Java are supported:
   - char (`@SChar`)
   - Vertx. Buffer (`@SBuffer`)
   - byte array (max 4.294.967.296 bytes in an array, `@SBytes`)
+  - json object & json array (`@SJsonObject` and `@SJsonArray`)
   
 **Complex datatypes** (objects) are **not** supported!
 
