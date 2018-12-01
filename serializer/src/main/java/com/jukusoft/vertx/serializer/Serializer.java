@@ -8,6 +8,8 @@ import com.jukusoft.vertx.serializer.exceptions.UnsupportedProtocolVersionExcept
 import com.jukusoft.vertx.serializer.utils.ByteUtils;
 import com.jukusoft.vertx.serializer.utils.ExceptionUtils;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -160,6 +162,28 @@ public class Serializer {
                     //add string
                     buf.setBuffer(_pos, content);
                     _pos += content.length();
+                } else if (clazz == SJsonObject.class) {
+                    JsonObject json = (JsonObject) field.get(obj);
+                    String value = json.encode();
+
+                    //add length of string
+                    buf.setInt(_pos, value.length());
+                    _pos += 4;
+
+                    //add string
+                    buf.setString(_pos, value);
+                    _pos += value.length() * 4;
+                } else if (clazz == SJsonArray.class) {
+                    JsonArray json = (JsonArray) field.get(obj);
+                    String value = json.encode();
+
+                    //add length of string
+                    buf.setInt(_pos, value.length());
+                    _pos += 4;
+
+                    //add string
+                    buf.setString(_pos, value);
+                    _pos += value.length() * 4;
                 }
             }
         }
@@ -285,6 +309,32 @@ public class Serializer {
                         _pos += length;
 
                         field.set(ins, content);
+                    } else if (clazz == SJsonObject.class) {
+                        //read length of string
+                        int length = msg.getInt(_pos);
+                        _pos += 4;
+
+                        //read string
+                        String str = msg.getString(_pos, _pos + length);
+                        _pos += length * 4;
+
+                        //convert string to json object
+                        JsonObject json = new JsonObject(str);
+
+                        field.set(ins, json);
+                    } else if (clazz ==SJsonArray.class) {
+                        //read length of string
+                        int length = msg.getInt(_pos);
+                        _pos += 4;
+
+                        //read string
+                        String str = msg.getString(_pos, _pos + length);
+                        _pos += length * 4;
+
+                        //convert string to json array
+                        JsonArray jsonArray = new JsonArray(str);
+
+                        field.set(ins, jsonArray);
                     }
                 }
             }

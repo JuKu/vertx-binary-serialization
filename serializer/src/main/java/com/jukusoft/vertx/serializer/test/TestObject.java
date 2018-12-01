@@ -2,6 +2,8 @@ package com.jukusoft.vertx.serializer.test;
 
 import com.jukusoft.vertx.serializer.SerializableObject;
 import com.jukusoft.vertx.serializer.annotations.*;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 @MessageType(type = 0x01, extendedType = 0x01)
 @ProtocolVersion(1)
@@ -36,6 +38,12 @@ public class TestObject implements SerializableObject {
 
     @SDouble
     public double doubleValue = 3.0d;
+
+    @SJsonObject
+    public JsonObject json = new JsonObject();
+
+    @SJsonArray
+    public JsonArray jsonArray = new JsonArray();
 
     public TestObject () {
         //
