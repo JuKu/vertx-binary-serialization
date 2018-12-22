@@ -407,4 +407,8 @@ public class TCPClient implements Client {
         return this.client;
     }
 
+    public Vertx getVertx () {
+        return this.vertx;
+    }
+
 }

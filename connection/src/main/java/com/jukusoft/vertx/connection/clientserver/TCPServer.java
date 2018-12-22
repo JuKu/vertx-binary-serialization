@@ -184,6 +184,10 @@ public class TCPServer implements Server {
         this.customConnectHandler = customConnectHandler;
     }
 
+    public Vertx getVertx () {
+        return this.vertx;
+    }
+
     @Override
     public void shutdown() {
         for (NetServer server : servers) {
