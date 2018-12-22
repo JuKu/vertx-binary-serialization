@@ -36,6 +36,9 @@ public class TestObject implements SerializableObject {
     @SFloat
     public float floatValue = 1.20f;
 
+    @SFloat
+    public float floatValue2 = 2f;
+
     @SDouble
     public double doubleValue = 3.0d;
 
